@@ -20,11 +20,7 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import NatronLogo from "../Assets/logo_big_color.svg";
 import NatronLogoWhite from "../Assets/logo_big_white.svg";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import Cost from "./Cost";
-import Dashboard from "./Dashboard";
-import Notifications from "./Notifications";
-import Settings from "./Settings";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 

@@ -1,7 +1,5 @@
 import { Button, Typography } from "@mui/material";
 
-import { DrawerHeader } from "./Navbar";
-
 export default function Dashboard() {
   return (
     <>

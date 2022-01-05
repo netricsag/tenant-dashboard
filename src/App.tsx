@@ -1,13 +1,10 @@
 import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { purple, green } from "@mui/material/colors";
-import React from "react";
 import Navbar from "./Components/Navbar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
 import Cost from "./Components/Cost";
 import Notifications from "./Components/Notifications";
 import Settings from "./Components/Settings";
-import Content from "./Components/Content";
 
 function App() {
   const darkTheme = createTheme({
