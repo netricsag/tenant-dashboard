@@ -1,0 +1,39 @@
+import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { purple, green } from "@mui/material/colors";
+import React from "react";
+import Navbar from "./Components/Navbar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Dashboard from "./Components/Dashboard";
+import Cost from "./Components/Cost";
+import Notifications from "./Components/Notifications";
+import Settings from "./Components/Settings";
+import Content from "./Components/Content";
+
+function App() {
+  const darkTheme = createTheme({
+    palette: {
+      mode: "light",
+      primary: { main: "#5864ff" },
+      secondary: { main: "#4DFF83" },
+    },
+  });
+  return (
+    <>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <Navbar />
+        <Box component="main" sx={{ flexGrow: 1, p: 12 }}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="cost" element={<Cost />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="settings" element={<Settings />} />
+          </Routes>
+        </Box>
+      </ThemeProvider>
+    </>
+  );
+}
+
+export default App;
