@@ -19,7 +19,11 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Navbar />
-        <Box component="main" sx={{ flexGrow: 1, p: 12 }}>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, p: 12, height: "100vh" }}
+          style={{ backgroundColor: "#f5f5f5" }}
+        >
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />

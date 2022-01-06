@@ -18,9 +18,9 @@ import MailIcon from "@mui/icons-material/Mail";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import NatronLogo from "../Assets/logo_big_color.svg";
-import NatronLogoWhite from "../Assets/logo_big_white.svg";
 import { Link } from "react-router-dom";
+import NatronIcon from "./Items/NatronIcon";
+import NatronIconWhite from "./Items/NatronIconWhite";
 
 const drawerWidth = 240;
 
@@ -105,6 +105,9 @@ export default function Navbar() {
     setOpen(false);
   };
 
+  const customerName = "[CUSTOMER NAME]";
+  const titleBarText = "Natron Tenant - " + customerName;
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -119,32 +122,32 @@ export default function Navbar() {
               marginRight: "36px",
               ...(open && { display: "none" }),
             }}
+            style={{
+              height: "5vh",
+              width: "5vh",
+            }}
+            size="large"
           >
-            <img
-              src={NatronLogoWhite}
-              style={{
-                minHeight: "3vh",
-                maxHeight: "3vh",
-              }}
-            />
+            <NatronIconWhite />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Natron Tenant Dashboard
+          <Typography variant="h4" noWrap component="div">
+            {titleBarText}
           </Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <img
-            src={NatronLogo}
+          <IconButton
+            onClick={handleDrawerClose}
             style={{
-              minHeight: "3vh",
-              maxHeight: "3vh",
               marginRight: "auto",
-              paddingLeft: "1vw",
+              height: "5vh",
+              width: "5vh",
             }}
-          />
-
+            size="large"
+          >
+            <NatronIcon />
+          </IconButton>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -186,7 +189,7 @@ export default function Navbar() {
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary={"Settings"} />
+            <ListItemText primary={"Einstellungen"} />
           </ListItem>
         </List>
       </Drawer>
