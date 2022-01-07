@@ -21,6 +21,8 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import { Link } from "react-router-dom";
 import NatronIcon from "./Items/NatronIcon";
 import NatronIconWhite from "./Items/NatronIconWhite";
+import drawerContext from "./Items/DrawerContext";
+import { useContext } from "react";
 
 const drawerWidth = 240;
 
@@ -97,12 +99,16 @@ export default function Navbar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
+  const { updateDrawerOpen } = useContext(drawerContext);
+
   const handleDrawerOpen = () => {
     setOpen(true);
+    updateDrawerOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    updateDrawerOpen(false);
   };
 
   const customerName = "[CUSTOMER NAME]";
