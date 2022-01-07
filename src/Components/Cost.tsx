@@ -1,6 +1,5 @@
 import { Grid, Typography } from "@mui/material";
 import CardComponent from "./Items/CardComponent";
-import CostItem from "./Items/CostItem";
 import Link from "@mui/material/Link";
 import PaidIcon from "@mui/icons-material/Paid";
 

@@ -1,19 +1,14 @@
 import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
 import DynamicFormTwoToneIcon from "@mui/icons-material/DynamicFormTwoTone";
-import {
-  Box,
-  Divider,
-  Grid,
-  List,
-  Paper,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Button, Grid, Link, Stack, Typography, useTheme } from "@mui/material";
 import DonutChart from "./Items/DonutChart";
 import RamIcon from "./Items/RAMIcon";
 import CpuIcon from "./Items/CpuIcon";
 import CardComponent from "./Items/CardComponent";
+import BadgeIcon from "@mui/icons-material/Badge";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { CubeTransparentIcon } from "@heroicons/react/outline";
 
 export default function Dashboard() {
   const diskFree = 20;
@@ -113,6 +108,66 @@ export default function Dashboard() {
                 1337 MB
               </Typography>
             </Stack>
+          </CardComponent>
+        </Grid>
+        <Grid item>
+          <CardComponent
+            title="Anzahl Namespaces"
+            titleIcon={<CubeTransparentIcon width={"3vh"} />}
+            contentSpacing={1}
+          >
+            <Typography component="p" variant="h4">
+              69
+            </Typography>
+
+            <div>
+              <Link
+                color="primary"
+                href="#"
+                onClick={() => alert("Add Namespace Modal!")}
+              >
+                Details
+              </Link>
+            </div>
+          </CardComponent>
+        </Grid>
+        <Grid item>
+          <CardComponent
+            title="Anzahl Service Accounts"
+            titleIcon={<AccountCircleIcon />}
+            contentSpacing={1}
+          >
+            <Typography component="p" variant="h4">
+              12
+            </Typography>
+
+            <div>
+              <Link
+                color="primary"
+                href="#"
+                onClick={() => alert("Add Service Account Modal!")}
+              >
+                Details
+              </Link>
+            </div>
+          </CardComponent>
+        </Grid>
+        <Grid item>
+          <CardComponent
+            title="Git Repository"
+            titleIcon={<GitHubIcon />}
+            contentSpacing={1}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<GitHubIcon />}
+              onClick={() => {
+                alert("Add Git Repo Link!");
+              }}
+            >
+              Open Repository
+            </Button>
           </CardComponent>
         </Grid>
       </Grid>

@@ -1,7 +1,4 @@
 import { Paper, Stack, Typography, Divider } from "@mui/material";
-import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
-import DynamicFormTwoToneIcon from "@mui/icons-material/DynamicFormTwoTone";
-import DonutChart from "./DonutChart";
 import { ResponsiveStyleValue } from "@mui/system";
 
 interface Props {
