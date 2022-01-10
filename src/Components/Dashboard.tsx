@@ -5,7 +5,6 @@ import DonutChart from "./Items/DonutChart";
 import RamIcon from "./Items/RAMIcon";
 import CpuIcon from "./Items/CpuIcon";
 import CardComponent from "./Items/CardComponent";
-import BadgeIcon from "@mui/icons-material/Badge";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { CubeTransparentIcon } from "@heroicons/react/outline";
@@ -47,6 +46,12 @@ export default function Dashboard() {
                     secondaryValue={diskFree}
                     innerText={diskFree + "% Frei"}
                   />
+                  <Typography variant="h6" component="div">
+                    Frei:
+                  </Typography>
+                  <Typography variant="body1" component="div">
+                    4 GB / 20 GB
+                  </Typography>
                 </Stack>
               </Grid>
               <Grid item>
@@ -63,6 +68,12 @@ export default function Dashboard() {
                     secondaryValue={SSDFree}
                     innerText={SSDFree + "% Frei"}
                   />
+                  <Typography variant="h6" component="div">
+                    Frei:
+                  </Typography>
+                  <Typography variant="body1" component="div">
+                    20.25 GB / 40 GB
+                  </Typography>
                 </Stack>
               </Grid>
             </Grid>

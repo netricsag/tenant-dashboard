@@ -1,17 +1,11 @@
-import {
-  Box,
-  createTheme,
-  CssBaseline,
-  Grid,
-  ThemeProvider,
-} from "@mui/material";
+import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Navbar from "./Components/Navbar";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
 import Cost from "./Components/Cost";
 import Notifications from "./Components/Notifications";
 import Settings from "./Components/Settings";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import drawerContext from "./Components/Items/DrawerContext";
 
 function App() {
