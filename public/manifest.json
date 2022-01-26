@@ -1,0 +1,8 @@
+{
+  "short_name": "Tenant Dashboard",
+  "name": "Tenant Dashboard for Natron.io",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
