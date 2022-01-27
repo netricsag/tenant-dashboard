@@ -8,6 +8,9 @@ import CardComponent from "./Items/CardComponent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { CubeTransparentIcon } from "@heroicons/react/outline";
+import { useContext, useEffect } from "react";
+import Navbar from "./Navbar";
+import { AuthenticationContext } from "../App";
 
 export default function Dashboard() {
   const diskFree = 20;
@@ -17,9 +20,25 @@ export default function Dashboard() {
   const SSDUsed = 55;
 
   const theme = useTheme();
+  const authToken = useContext(AuthenticationContext);
+
+  useEffect(() => {
+    // fetch data
+    fetch("https://api.natron.io/api/v1/requests/cpu", {
+      method: "get",
+      headers: new Headers({
+        Authorization: `Bearer ${authToken.authenticationToken}`,
+      }),
+    }).then((res) => {
+      res.json().then((jsonObj) => {
+        console.log(jsonObj);
+      });
+    });
+  }, []);
 
   return (
     <>
+      <Navbar />
       <Typography variant="h2" component="div" gutterBottom>
         Dashboard
       </Typography>
