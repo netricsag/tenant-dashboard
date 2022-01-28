@@ -27,6 +27,7 @@ function App() {
       const authToken = localStorage.getItem("tenant-api-token");
       setAuthenticated(true);
       setAuthenticationToken(authToken as string);
+      //updateAuthenticationToken(authToken as string);
     }
   }, []);
 
@@ -34,7 +35,7 @@ function App() {
     palette: {
       mode: "light",
       primary: { main: "#5864ff" },
-      secondary: { main: "#4DFF83" },
+      secondary: { main: "#62EE35" },
       background: { default: "#f5f5f5" },
     },
   });
