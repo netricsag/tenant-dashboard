@@ -21,6 +21,7 @@ import CpuIcon from "./Items/CpuIcon";
 import CardComponent from "./Items/CardComponent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import ViewInAr from "@mui/icons-material/ViewInAr";
 import { CubeTransparentIcon } from "@heroicons/react/outline";
 import { useContext, useEffect, useState } from "react";
 import Navbar from "./Navbar";
@@ -30,20 +31,27 @@ export default function Dashboard() {
   const [cpuCount, setCpuCount] = useState(0);
   const [ramByteCount, setRamByteCount] = useState(0);
   const [ramMetric, setRamMetric] = useState("MB");
-  const [hddAllocated, setHddAllocated] = useState(0);
-  const [ssdAllocated, setSsdAllocated] = useState(0);
+  //const [hddAllocated, setHddAllocated] = useState(0);
+  //const [ssdAllocated, setSsdAllocated] = useState(0);
   const [tenants, setTenants] = useState([]);
   const [selectedTenant, setSelectedTenant] = useState("");
   const [namespaceCount, setNameSpaceCount] = useState(0);
   const [namespaces, setNameSpaces] = useState([]);
   const [serviceAccounts, setServiceAccounts] = useState();
   const [serviceAccountCount, setServiceAccountCount] = useState(0);
+  const [selectedStorage, setSelectedStorage] = useState("");
+  const [storage, setStorage] = useState<string[]>([]);
+  const [storageObject, SetStorageObject] = useState<any>();
+  const [pods, setPods] = useState([]);
+  const [podCount, setPodCount] = useState(0);
 
   // Loading states
   const [cpuLoaded, setCpuLoaded] = useState(false);
   const [ramLoaded, setRamLoaded] = useState(false);
   const [nameSpacesLoaded, setNameSpacesLoaded] = useState(false);
   const [serviceAccountsLoaded, setServiceAccountsLoaded] = useState(false);
+  const [storageLoaded, setStorageLoaded] = useState(false);
+  const [podsLoaded, setPodsLoaded] = useState(false);
 
   //const [cpuLoading, setCpuLoading] = useState(true);
 
@@ -59,6 +67,9 @@ export default function Dashboard() {
   const handleTenantChange = (event: SelectChangeEvent) => {
     setSelectedTenant(event.target.value as string);
   };
+  const handleStorageChange = (event: SelectChangeEvent) => {
+    setSelectedStorage(event.target.value as string);
+  };
 
   const DropDownItems = tenants.map((tenantName, index) => {
     return (
@@ -68,11 +79,21 @@ export default function Dashboard() {
     );
   });
 
+  const StorageDropDownItems = storage.map((storageName, index) => {
+    return (
+      <MenuItem value={storageName as string} key={index}>
+        {storageName}
+      </MenuItem>
+    );
+  });
+
   useEffect(() => {
     setRamLoaded(false);
     setCpuLoaded(false);
     setNameSpacesLoaded(false);
     setServiceAccountsLoaded(false);
+    setStorageLoaded(false);
+    setPodsLoaded(false);
   }, [selectedTenant]);
 
   useEffect(() => {
@@ -80,6 +101,12 @@ export default function Dashboard() {
       setSelectedTenant(tenants[0] as string);
     }
   }, [tenants]);
+
+  useEffect(() => {
+    if (storage[0]) {
+      setSelectedStorage(storage[0] as string);
+    }
+  }, [storage]);
 
   useEffect(() => {
     fetch("https://api.natron.io/api/v1/tenants", {
@@ -90,7 +117,6 @@ export default function Dashboard() {
     }).then((res) => {
       res.json().then((jsonObj) => {
         setTenants(jsonObj);
-        //console.log(tenants);
       });
     });
   }, []);
@@ -116,7 +142,6 @@ export default function Dashboard() {
         }),
       }).then((res) => {
         res.json().then((jsonObj) => {
-          //console.log(jsonObj);
           jsonObj = jsonObj / 1024 / 1024;
           if (jsonObj >= 10000) {
             jsonObj = jsonObj / 1024;
@@ -134,12 +159,17 @@ export default function Dashboard() {
         }),
       }).then((res) => {
         res.json().then((jsonObj) => {
-          //console.log(jsonObj);
-          let counter = 0;
-          for (let count in jsonObj) {
-            counter += jsonObj[count];
+          console.log(jsonObj);
+          if (jsonObj != null) {
+            //console.log(storageArray);
+            SetStorageObject(jsonObj);
+            setStorage(Object.keys(jsonObj));
+            setStorageLoaded(true);
+          } else {
+            SetStorageObject("");
+            setStorage([]);
+            setStorageLoaded(true);
           }
-          //setCpuCount(counter);
         });
       });
 
@@ -179,6 +209,26 @@ export default function Dashboard() {
           setServiceAccountsLoaded(true);
         });
       });
+
+      fetch(`https://api.natron.io/api/v1/${selectedTenant}/pods`, {
+        method: "get",
+        headers: new Headers({
+          Authorization: `Bearer ${authToken.authenticationToken}`,
+        }),
+      }).then((res) => {
+        res.json().then((jsonObj) => {
+          //console.log(jsonObj);
+          if (jsonObj) {
+            setPods(jsonObj);
+            setPodCount(jsonObj.length);
+            setPodsLoaded(true);
+          } else {
+            setPods([]);
+            setPodCount(0);
+            setPodsLoaded(true);
+          }
+        });
+      });
     }
   }, [selectedTenant]);
 
@@ -213,55 +263,57 @@ export default function Dashboard() {
           <CardComponent
             title={"Speicher"}
             titleIcon={<StorageTwoToneIcon fontSize="medium" />}
-            stackDirection="row"
-            contentSpacing={1}
+            //stackDirection="column"
+            contentSpacing={2}
           >
-            <Grid container spacing={1}>
-              <Grid item>
-                <Stack
-                  direction="column"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography variant="h6" component="div">
-                    FC Disk
-                  </Typography>
-                  <DonutChart
-                    primaryValue={hddAllocated}
-                    secondaryValue={diskFree}
-                    innerText={diskFree + "% Frei"}
-                  />
-                  <Typography variant="h6" component="div">
-                    Alloziert:
-                  </Typography>
-                  <Typography variant="body1" component="div">
-                    {hddAllocated} GB / 20 GB
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid item>
-                <Stack
-                  direction="column"
-                  justifyContent="space-around"
-                  alignItems="center"
-                >
-                  <Typography variant="h6" component="div">
-                    SSD
-                  </Typography>
-                  <DonutChart
-                    primaryValue={ssdAllocated}
-                    secondaryValue={SSDFree}
-                    innerText={SSDFree + "% Frei"}
-                  />
-                  <Typography variant="h6" component="div">
-                    Alloziert:
-                  </Typography>
-                  <Typography variant="body1" component="div">
-                    {ssdAllocated} GB / 40 GB
-                  </Typography>
-                </Stack>
-              </Grid>
-            </Grid>
+            {storageLoaded ? (
+              <>
+                {storageObject ? (
+                  <Grid item>
+                    <Box sx={{ minWidth: 120 }}>
+                      <FormControl fullWidth>
+                        <InputLabel>Storage</InputLabel>
+                        <Select
+                          label="Storage"
+                          value={selectedStorage}
+                          onChange={handleStorageChange}
+                          style={{ minWidth: 50 }}
+                        >
+                          {StorageDropDownItems}
+                        </Select>
+                      </FormControl>
+                    </Box>
+
+                    <Grid item>
+                      <Stack
+                        direction="column"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <DonutChart
+                          primaryValue={
+                            storageObject[selectedStorage] / 1024 / 1024 / 1024
+                          }
+                          secondaryValue={diskFree}
+                          innerText={diskFree + "% Frei"}
+                        />
+                        <Typography variant="h6" component="div">
+                          Alloziert:
+                        </Typography>
+                        <Typography variant="body1" component="div">
+                          {storageObject[selectedStorage] / 1024 / 1024 / 1024}{" "}
+                          GB / 20 GB
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                  </Grid>
+                ) : (
+                  <>Kein Storage zugewiesen</>
+                )}
+              </>
+            ) : (
+              <CircularProgress color="primary" />
+            )}
           </CardComponent>
         </Grid>
 
@@ -344,6 +396,38 @@ export default function Dashboard() {
             )}
           </CardComponent>
         </Grid>
+
+        <Grid item>
+          <CardComponent
+            title="Anzahl Pods"
+            titleIcon={<ViewInAr />}
+            contentSpacing={1}
+          >
+            {podsLoaded ? (
+              <>
+                <Typography component="p" variant="h4">
+                  {podCount}
+                </Typography>
+                {podCount > 0 ? (
+                  <div>
+                    <Link
+                      color="primary"
+                      href="#"
+                      onClick={() => alert("Add Service Account Modal!")}
+                    >
+                      Details
+                    </Link>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <CircularProgress color="primary" />
+            )}
+          </CardComponent>
+        </Grid>
+
         <Grid item>
           <CardComponent
             title="Anzahl Service Accounts"
