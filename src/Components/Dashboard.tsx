@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -19,6 +18,7 @@ import PodCardComponent from "./Items/CardComponents/PodCardComponent";
 import ServiceAccountCardComponent from "./Items/CardComponents/ServiceAccountCardComponent";
 import StorageCardComponent from "./Items/CardComponents/StorageCardComponent";
 import RepositoryCardComponent from "./Items/CardComponents/RepositoryCardComponent";
+import IngressCardComponent from "./Items/CardComponents/IngressCardComponent";
 
 export default function Dashboard() {
   const [tenants, setTenants] = useState([]);
@@ -93,11 +93,12 @@ export default function Dashboard() {
         <Grid item>
           <NamespaceCardComponent tenant={selectedTenant} />
         </Grid>
-
         <Grid item>
           <PodCardComponent tenant={selectedTenant} />
         </Grid>
-
+        <Grid item>
+          <IngressCardComponent tenant={selectedTenant} />
+        </Grid>
         <Grid item>
           <ServiceAccountCardComponent tenant={selectedTenant} />
         </Grid>

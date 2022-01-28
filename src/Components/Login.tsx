@@ -6,7 +6,9 @@ import { useContext, useEffect } from "react";
 import { AuthenticationContext } from "../App";
 
 export default function Login() {
-  const { updateAuthenticated } = useContext(AuthenticationContext);
+  const { updateAuthenticated, updateAuthenticationToken } = useContext(
+    AuthenticationContext
+  );
 
   const apiUrl = process.env.REACT_APP_API_OAUTH_URI;
 
@@ -34,11 +36,11 @@ export default function Login() {
         }),
       }).then((res) => {
         if (res.status === 200) {
-          updateAuthenticated(true);
           res.json().then((jsonObj) => {
             const apiToken = jsonObj.token;
             localStorage.setItem("tenant-api-token", apiToken);
-            //document.cookie = `tenant-api-token=${apiToken}; path=/`;
+            updateAuthenticationToken(apiToken);
+            updateAuthenticated(true);
           });
         }
       });
