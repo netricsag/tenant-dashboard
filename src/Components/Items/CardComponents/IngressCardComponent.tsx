@@ -1,6 +1,6 @@
 import { Typography, CircularProgress, Link } from "@mui/material";
 import CardComponent from "../CardComponent";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext } from "../../../App";
 
@@ -8,38 +8,38 @@ interface IRessourceCardComponent {
   tenant: string;
 }
 
-export default function ServiceAccountCardComponent(
-  props: IRessourceCardComponent
-) {
-  const [serviceAccounts, setServiceAccounts] = useState();
-  const [serviceAccountCount, setServiceAccountCount] = useState(0);
+export default function IngressCardComponent(props: IRessourceCardComponent) {
+  const [ingress, setIngress] = useState([]);
+  const [ingressCount, setIngressCount] = useState(0);
   const [selectedTenant, setSelectedTenant] = useState("");
 
-  const [serviceAccountsLoaded, setServiceAccountsLoaded] = useState(false);
+  const [ingressLoaded, setIngressLoaded] = useState(false);
 
   const authToken = useContext(AuthenticationContext);
 
   useEffect(() => {
     setSelectedTenant(props.tenant);
-    setServiceAccountsLoaded(false);
+    setIngressLoaded(false);
   }, [props.tenant]);
 
   useEffect(() => {
     if (selectedTenant) {
-      fetch(`https://api.natron.io/api/v1/${selectedTenant}/serviceaccounts`, {
+      fetch(`https://api.natron.io/api/v1/${selectedTenant}/requests/ingress`, {
         method: "get",
         headers: new Headers({
           Authorization: `Bearer ${authToken.authenticationToken}`,
         }),
       }).then((res) => {
         res.json().then((jsonObj) => {
-          let counter = 0;
-          for (let sa in jsonObj) {
-            counter++;
+          if (jsonObj) {
+            setIngress(jsonObj);
+            setIngressCount(jsonObj.length);
+            setIngressLoaded(true);
+          } else {
+            setIngress([]);
+            setIngressCount(0);
+            setIngressLoaded(true);
           }
-          setServiceAccountCount(counter);
-          setServiceAccounts(jsonObj);
-          setServiceAccountsLoaded(true);
         });
       });
     }
@@ -47,16 +47,16 @@ export default function ServiceAccountCardComponent(
 
   return (
     <CardComponent
-      title="Anzahl Service Accounts"
-      titleIcon={<AccountCircleIcon />}
+      title="Anzahl Ingresses"
+      titleIcon={<SettingsEthernetIcon />}
       contentSpacing={1}
     >
-      {serviceAccountsLoaded ? (
+      {ingressLoaded ? (
         <>
           <Typography component="p" variant="h4">
-            {serviceAccountCount}
+            {ingressCount}
           </Typography>
-          {serviceAccountCount > 0 ? (
+          {ingressCount > 0 ? (
             <div>
               <Link
                 color="primary"

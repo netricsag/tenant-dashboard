@@ -23,7 +23,7 @@ export default function PodCardComponent(props: IRessourceCardComponent) {
   }, [props.tenant]);
 
   useEffect(() => {
-    if (props.tenant) {
+    if (selectedTenant) {
       fetch(`https://api.natron.io/api/v1/${selectedTenant}/pods`, {
         method: "get",
         headers: new Headers({

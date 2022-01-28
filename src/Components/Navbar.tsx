@@ -23,6 +23,9 @@ import NatronIcon from "./Items/NatronIcon";
 import NatronIconWhite from "./Items/NatronIconWhite";
 import drawerContext from "./Items/DrawerContext";
 import { useContext } from "react";
+import TenantDropdown from "./Items/TenantDropdown";
+import { TenantContext } from "../App";
+import { Grid } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -111,8 +114,7 @@ export default function Navbar() {
     updateDrawerOpen(false);
   };
 
-  const customerName = "[CUSTOMER NAME]";
-  const titleBarText = "Natron Tenant - " + customerName;
+  const titleBarText = "Natron Tenant";
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -136,9 +138,16 @@ export default function Navbar() {
           >
             <NatronIconWhite />
           </IconButton>
-          <Typography variant="h4" noWrap component="div">
-            {titleBarText}
-          </Typography>
+          <Grid container spacing={3} alignItems="center">
+            <Grid item>
+              <Typography variant="h4" noWrap component="div">
+                {titleBarText}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <TenantDropdown />
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

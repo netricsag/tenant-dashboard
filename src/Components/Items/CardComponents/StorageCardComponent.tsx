@@ -56,7 +56,7 @@ export default function StorageCardComponent(props: IRessourceCardComponent) {
   }, [storage]);
 
   useEffect(() => {
-    if (props.tenant) {
+    if (selectedTenant) {
       fetch(`https://api.natron.io/api/v1/${selectedTenant}/requests/storage`, {
         method: "get",
         headers: new Headers({
