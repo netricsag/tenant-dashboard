@@ -51,23 +51,27 @@ export default function Login() {
 
   return (
     <>
-      <Stack direction="row" spacing={3}>
-        <Typography variant="h1">
-          <NatronIconWhite />
-        </Typography>
-        <Typography variant="h1" style={{ color: "white" }}>
-          natron
-        </Typography>
-      </Stack>
       <Stack
         justifyContent="center"
         alignItems="center"
         direction="column"
         style={{
           width: "100vw",
-          height: "87vh",
+          height: "100vh",
         }}
+        spacing={4}
       >
+        <Stack direction="row" spacing={3}>
+          <Typography variant="h1">
+            <NatronIconWhite />
+          </Typography>
+          <Typography variant="h1" style={{ color: "white" }}>
+            natron
+          </Typography>
+        </Stack>
+        <Typography variant="h3" style={{ color: "white" }} gutterBottom>
+          Dashboard
+        </Typography>
         <Paper
           elevation={3}
           sx={{
