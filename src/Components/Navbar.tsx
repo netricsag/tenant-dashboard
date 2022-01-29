@@ -24,8 +24,7 @@ import NatronIconWhite from "./Items/NatronIconWhite";
 import drawerContext from "./Items/DrawerContext";
 import { useContext } from "react";
 import TenantDropdown from "./Items/TenantDropdown";
-import { Button, Grid } from "@mui/material";
-import Logout from "./Logout";
+import { Grid } from "@mui/material";
 import LogoutButton from "./Logout";
 
 const drawerWidth = 240;

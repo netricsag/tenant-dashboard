@@ -4,7 +4,7 @@ import Dashboard from "./Components/Dashboard";
 import Cost from "./Components/Cost";
 import Notifications from "./Components/Notifications";
 import Settings from "./Components/Settings";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import drawerContext from "./Components/Items/DrawerContext";
 import Login from "./Components/Login";
 import NatronBackground from "./Assets/blob-scatter-haikei.svg";
