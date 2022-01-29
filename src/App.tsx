@@ -7,7 +7,6 @@ import Settings from "./Components/Settings";
 import { createContext, useEffect, useState } from "react";
 import drawerContext from "./Components/Items/DrawerContext";
 import Login from "./Components/Login";
-import NatronIconWhite from "./Components/Items/NatronIconWhite";
 import NatronBackground from "./Assets/blob-scatter-haikei.svg";
 
 export const AuthenticationContext = createContext({
