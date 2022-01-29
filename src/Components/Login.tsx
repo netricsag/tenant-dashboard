@@ -52,11 +52,11 @@ export default function Login() {
   return (
     <>
       <Stack direction="row" spacing={3}>
-        <Typography variant="h1" style={{ color: "white" }}>
-          natron.io
-        </Typography>
         <Typography variant="h1">
           <NatronIconWhite />
+        </Typography>
+        <Typography variant="h1" style={{ color: "white" }}>
+          natron
         </Typography>
       </Stack>
       <Stack
