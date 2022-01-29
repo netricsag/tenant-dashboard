@@ -1,11 +1,9 @@
-import { Login as LoginIcon } from "@mui/icons-material";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { Button, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Button, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import { AuthenticationContext } from "../App";
-import NatronIcon from "./Items/NatronIcon";
+
 import NatronIconWhite from "./Items/NatronIconWhite";
-import NatronBackground from "../Assets/blob-scatter-haikei.svg";
 
 export default function Login() {
   const { updateAuthenticated, updateAuthenticationToken } = useContext(
