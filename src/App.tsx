@@ -1,11 +1,10 @@
 import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import Navbar from "./Components/Navbar";
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
 import Cost from "./Components/Cost";
 import Notifications from "./Components/Notifications";
 import Settings from "./Components/Settings";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import drawerContext from "./Components/Items/DrawerContext";
 import Login from "./Components/Login";
 
@@ -29,14 +28,12 @@ function App() {
   const [authenticationToken, setAuthenticationToken] = useState("");
   const [currentTenant, setCurrentTenant] = useState("");
   const [currentTenantList, setCurrentTenantList] = useState([]);
-  const { updateAuthenticated } = useContext(AuthenticationContext);
 
   useEffect(() => {
     if (localStorage.getItem("tenant-api-token")) {
       const authToken = localStorage.getItem("tenant-api-token");
       setAuthenticated(true);
       setAuthenticationToken(authToken as string);
-      //updateAuthenticationToken(authToken as string);
     }
   }, []);
 

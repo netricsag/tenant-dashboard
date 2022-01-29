@@ -4,51 +4,52 @@ import CardComponent from "../CardComponent";
 import CpuIcon from "../CpuIcon";
 import RamIcon from "../RAMIcon";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "../../../App";
+import { AuthenticationContext, TenantContext } from "../../../App";
 
-interface IRessourceCardComponent {
-  tenant: string;
-}
-
-export default function RessourceCardComponent(props: IRessourceCardComponent) {
+export default function RessourceCardComponent() {
   const [cpuCount, setCpuCount] = useState(0);
   const [ramByteCount, setRamByteCount] = useState(0);
   const [ramMetric, setRamMetric] = useState("MB");
-  const [selectedTenant, setSelectedTenant] = useState("");
 
   const [cpuLoaded, setCpuLoaded] = useState(false);
   const [ramLoaded, setRamLoaded] = useState(false);
 
   const authToken = useContext(AuthenticationContext);
+  const tenantContext = useContext(TenantContext);
 
   const theme = useTheme();
 
   useEffect(() => {
-    setSelectedTenant(props.tenant);
     setRamLoaded(false);
     setCpuLoaded(false);
-  }, [props.tenant]);
+  }, [tenantContext.selectedTenant]);
 
   useEffect(() => {
-    if (selectedTenant) {
-      fetch(`https://api.natron.io/api/v1/${selectedTenant}/requests/cpu`, {
-        method: "get",
-        headers: new Headers({
-          Authorization: `Bearer ${authToken.authenticationToken}`,
-        }),
-      }).then((res) => {
+    if (tenantContext.selectedTenant) {
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/requests/cpu`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
         res.json().then((jsonObj) => {
           setCpuCount(jsonObj);
           setCpuLoaded(true);
         });
       });
 
-      fetch(`https://api.natron.io/api/v1/${selectedTenant}/requests/memory`, {
-        method: "get",
-        headers: new Headers({
-          Authorization: `Bearer ${authToken.authenticationToken}`,
-        }),
-      }).then((res) => {
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/requests/memory`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
         res.json().then((jsonObj) => {
           jsonObj = jsonObj / 1024 / 1024;
           if (jsonObj >= 10000) {
@@ -60,7 +61,7 @@ export default function RessourceCardComponent(props: IRessourceCardComponent) {
         });
       });
     }
-  }, [selectedTenant]);
+  }, [tenantContext.selectedTenant]);
 
   return (
     <CardComponent

@@ -2,34 +2,31 @@ import { Typography, CircularProgress, Link } from "@mui/material";
 import CardComponent from "../CardComponent";
 import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "../../../App";
+import { AuthenticationContext, TenantContext } from "../../../App";
 
-interface IRessourceCardComponent {
-  tenant: string;
-}
-
-export default function IngressCardComponent(props: IRessourceCardComponent) {
+export default function IngressCardComponent() {
   const [ingress, setIngress] = useState([]);
   const [ingressCount, setIngressCount] = useState(0);
-  const [selectedTenant, setSelectedTenant] = useState("");
-
   const [ingressLoaded, setIngressLoaded] = useState(false);
 
   const authToken = useContext(AuthenticationContext);
+  const tenantContext = useContext(TenantContext);
 
   useEffect(() => {
-    setSelectedTenant(props.tenant);
     setIngressLoaded(false);
-  }, [props.tenant]);
+  }, [tenantContext.selectedTenant]);
 
   useEffect(() => {
-    if (selectedTenant) {
-      fetch(`https://api.natron.io/api/v1/${selectedTenant}/requests/ingress`, {
-        method: "get",
-        headers: new Headers({
-          Authorization: `Bearer ${authToken.authenticationToken}`,
-        }),
-      }).then((res) => {
+    if (tenantContext.selectedTenant) {
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/requests/ingress`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
         res.json().then((jsonObj) => {
           if (jsonObj) {
             setIngress(jsonObj);
@@ -43,7 +40,7 @@ export default function IngressCardComponent(props: IRessourceCardComponent) {
         });
       });
     }
-  }, [selectedTenant]);
+  }, [tenantContext.selectedTenant]);
 
   return (
     <CardComponent

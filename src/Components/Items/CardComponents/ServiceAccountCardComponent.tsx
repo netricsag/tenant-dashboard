@@ -2,36 +2,32 @@ import { Typography, CircularProgress, Link } from "@mui/material";
 import CardComponent from "../CardComponent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "../../../App";
+import { AuthenticationContext, TenantContext } from "../../../App";
 
-interface IRessourceCardComponent {
-  tenant: string;
-}
-
-export default function ServiceAccountCardComponent(
-  props: IRessourceCardComponent
-) {
+export default function ServiceAccountCardComponent() {
   const [serviceAccounts, setServiceAccounts] = useState();
   const [serviceAccountCount, setServiceAccountCount] = useState(0);
-  const [selectedTenant, setSelectedTenant] = useState("");
 
   const [serviceAccountsLoaded, setServiceAccountsLoaded] = useState(false);
 
   const authToken = useContext(AuthenticationContext);
+  const tenantContext = useContext(TenantContext);
 
   useEffect(() => {
-    setSelectedTenant(props.tenant);
     setServiceAccountsLoaded(false);
-  }, [props.tenant]);
+  }, [tenantContext.selectedTenant]);
 
   useEffect(() => {
-    if (selectedTenant) {
-      fetch(`https://api.natron.io/api/v1/${selectedTenant}/serviceaccounts`, {
-        method: "get",
-        headers: new Headers({
-          Authorization: `Bearer ${authToken.authenticationToken}`,
-        }),
-      }).then((res) => {
+    if (tenantContext.selectedTenant) {
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/serviceaccounts`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
         res.json().then((jsonObj) => {
           let counter = 0;
           for (let sa in jsonObj) {
@@ -43,7 +39,7 @@ export default function ServiceAccountCardComponent(
         });
       });
     }
-  }, [selectedTenant]);
+  }, [tenantContext.selectedTenant]);
 
   return (
     <CardComponent

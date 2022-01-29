@@ -2,28 +2,21 @@ import { Button } from "@mui/material";
 import CardComponent from "../CardComponent";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "../../../App";
+import { AuthenticationContext, TenantContext } from "../../../App";
 
-interface IRessourceCardComponent {
-  tenant: string;
-}
-
-export default function RepositoryCardComponent(
-  props: IRessourceCardComponent
-) {
-  const [selectedTenant, setSelectedTenant] = useState("");
+export default function RepositoryCardComponent() {
   const [repositoryLoaded, setRepositoryLoaded] = useState(false);
 
   const authToken = useContext(AuthenticationContext);
+  const tenantContext = useContext(TenantContext);
 
   useEffect(() => {
-    setSelectedTenant(props.tenant);
     setRepositoryLoaded(false);
-  }, [props.tenant]);
+  }, [tenantContext.selectedTenant]);
 
   useEffect(() => {
-    if (selectedTenant) {
-      /*fetch(`https://api.natron.io/api/v1/${selectedTenant}/namespaces`, {
+    if (tenantContext.selectedTenant) {
+      /*fetch(`https://api.natron.io/api/v1/${tenantContext.selectedTenant}/namespaces`, {
         method: "get",
         headers: new Headers({
           Authorization: `Bearer ${authToken.authenticationToken}`,
@@ -34,7 +27,7 @@ export default function RepositoryCardComponent(
         });
       });*/
     }
-  }, [selectedTenant]);
+  }, [tenantContext.selectedTenant]);
 
   return (
     <CardComponent

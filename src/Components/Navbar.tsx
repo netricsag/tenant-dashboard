@@ -24,7 +24,6 @@ import NatronIconWhite from "./Items/NatronIconWhite";
 import drawerContext from "./Items/DrawerContext";
 import { useContext } from "react";
 import TenantDropdown from "./Items/TenantDropdown";
-import { TenantContext } from "../App";
 import { Grid } from "@mui/material";
 
 const drawerWidth = 240;

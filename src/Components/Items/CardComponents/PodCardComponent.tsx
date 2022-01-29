@@ -2,34 +2,31 @@ import { Typography, CircularProgress, Link } from "@mui/material";
 import CardComponent from "../CardComponent";
 import ViewInAr from "@mui/icons-material/ViewInAr";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "../../../App";
+import { AuthenticationContext, TenantContext } from "../../../App";
 
-interface IRessourceCardComponent {
-  tenant: string;
-}
-
-export default function PodCardComponent(props: IRessourceCardComponent) {
+export default function PodCardComponent() {
   const [pods, setPods] = useState([]);
   const [podCount, setPodCount] = useState(0);
-  const [selectedTenant, setSelectedTenant] = useState("");
-
   const [podsLoaded, setPodsLoaded] = useState(false);
 
   const authToken = useContext(AuthenticationContext);
+  const tenantContext = useContext(TenantContext);
 
   useEffect(() => {
-    setSelectedTenant(props.tenant);
     setPodsLoaded(false);
-  }, [props.tenant]);
+  }, [tenantContext.selectedTenant]);
 
   useEffect(() => {
-    if (selectedTenant) {
-      fetch(`https://api.natron.io/api/v1/${selectedTenant}/pods`, {
-        method: "get",
-        headers: new Headers({
-          Authorization: `Bearer ${authToken.authenticationToken}`,
-        }),
-      }).then((res) => {
+    if (tenantContext.selectedTenant) {
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/pods`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
         res.json().then((jsonObj) => {
           if (jsonObj) {
             setPods(jsonObj);
@@ -43,7 +40,7 @@ export default function PodCardComponent(props: IRessourceCardComponent) {
         });
       });
     }
-  }, [selectedTenant]);
+  }, [tenantContext.selectedTenant]);
 
   return (
     <CardComponent

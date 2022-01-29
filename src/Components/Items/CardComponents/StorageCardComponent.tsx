@@ -13,22 +13,18 @@ import {
 import CardComponent from "../CardComponent";
 import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "../../../App";
+import { AuthenticationContext, TenantContext } from "../../../App";
 import DonutChart from "../DonutChart";
 
-interface IRessourceCardComponent {
-  tenant: string;
-}
-
-export default function StorageCardComponent(props: IRessourceCardComponent) {
+export default function StorageCardComponent() {
   const [selectedStorage, setSelectedStorage] = useState("");
   const [storage, setStorage] = useState<string[]>([]);
   const [storageObject, SetStorageObject] = useState<any>();
-  const [selectedTenant, setSelectedTenant] = useState("");
 
   const [storageLoaded, setStorageLoaded] = useState(false);
 
   const authToken = useContext(AuthenticationContext);
+  const tenantContext = useContext(TenantContext);
 
   const diskFree = 20;
 
@@ -45,9 +41,8 @@ export default function StorageCardComponent(props: IRessourceCardComponent) {
   });
 
   useEffect(() => {
-    setSelectedTenant(props.tenant);
     setStorageLoaded(false);
-  }, [props.tenant]);
+  }, [tenantContext.selectedTenant]);
 
   useEffect(() => {
     if (storage[0]) {
@@ -56,13 +51,16 @@ export default function StorageCardComponent(props: IRessourceCardComponent) {
   }, [storage]);
 
   useEffect(() => {
-    if (selectedTenant) {
-      fetch(`https://api.natron.io/api/v1/${selectedTenant}/requests/storage`, {
-        method: "get",
-        headers: new Headers({
-          Authorization: `Bearer ${authToken.authenticationToken}`,
-        }),
-      }).then((res) => {
+    if (tenantContext.selectedTenant) {
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/requests/storage`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
         res.json().then((jsonObj) => {
           if (jsonObj != null) {
             SetStorageObject(jsonObj);
@@ -76,7 +74,7 @@ export default function StorageCardComponent(props: IRessourceCardComponent) {
         });
       });
     }
-  }, [selectedTenant]);
+  }, [tenantContext.selectedTenant]);
 
   return (
     <CardComponent

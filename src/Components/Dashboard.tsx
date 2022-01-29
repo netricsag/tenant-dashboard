@@ -1,17 +1,5 @@
-import {
-  Box,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Typography,
-} from "@mui/material";
-
-import { useContext, useEffect, useState } from "react";
+import { Grid, Typography } from "@mui/material";
 import Navbar from "./Navbar";
-import { AuthenticationContext, TenantContext } from "../App";
 import RessourceCardComponent from "./Items/CardComponents/RessourceCardComponent";
 import NamespaceCardComponent from "./Items/CardComponents/NamespaceCardComponent";
 import PodCardComponent from "./Items/CardComponents/PodCardComponent";
@@ -19,11 +7,8 @@ import ServiceAccountCardComponent from "./Items/CardComponents/ServiceAccountCa
 import StorageCardComponent from "./Items/CardComponents/StorageCardComponent";
 import RepositoryCardComponent from "./Items/CardComponents/RepositoryCardComponent";
 import IngressCardComponent from "./Items/CardComponents/IngressCardComponent";
-import TenantDropdown from "./Items/TenantDropdown";
 
 export default function Dashboard() {
-  const tenantContext = useContext(TenantContext);
-
   return (
     <>
       <Navbar />
@@ -38,25 +23,25 @@ export default function Dashboard() {
 
       <Grid container spacing={3}>
         <Grid item>
-          <StorageCardComponent tenant={tenantContext.selectedTenant} />
+          <StorageCardComponent />
         </Grid>
         <Grid item>
-          <RessourceCardComponent tenant={tenantContext.selectedTenant} />
+          <RessourceCardComponent />
         </Grid>
         <Grid item>
-          <NamespaceCardComponent tenant={tenantContext.selectedTenant} />
+          <NamespaceCardComponent />
         </Grid>
         <Grid item>
-          <PodCardComponent tenant={tenantContext.selectedTenant} />
+          <PodCardComponent />
         </Grid>
         <Grid item>
-          <IngressCardComponent tenant={tenantContext.selectedTenant} />
+          <IngressCardComponent />
         </Grid>
         <Grid item>
-          <ServiceAccountCardComponent tenant={tenantContext.selectedTenant} />
+          <ServiceAccountCardComponent />
         </Grid>
         <Grid item>
-          <RepositoryCardComponent tenant={tenantContext.selectedTenant} />
+          <RepositoryCardComponent />
         </Grid>
       </Grid>
     </>

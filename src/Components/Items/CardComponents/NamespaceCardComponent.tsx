@@ -2,34 +2,31 @@ import { Typography, CircularProgress, Link } from "@mui/material";
 import CardComponent from "../CardComponent";
 import { CubeTransparentIcon } from "@heroicons/react/outline";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "../../../App";
+import { AuthenticationContext, TenantContext } from "../../../App";
 
-interface IRessourceCardComponent {
-  tenant: string;
-}
-
-export default function NamespaceCardComponent(props: IRessourceCardComponent) {
+export default function NamespaceCardComponent() {
   const [namespaceCount, setNameSpaceCount] = useState(0);
   const [namespaces, setNameSpaces] = useState([]);
-  const [selectedTenant, setSelectedTenant] = useState("");
-
   const [nameSpacesLoaded, setNameSpacesLoaded] = useState(false);
 
+  const tenantContext = useContext(TenantContext);
   const authToken = useContext(AuthenticationContext);
 
   useEffect(() => {
-    setSelectedTenant(props.tenant);
     setNameSpacesLoaded(false);
-  }, [props.tenant]);
+  }, [tenantContext.selectedTenant]);
 
   useEffect(() => {
-    if (selectedTenant) {
-      fetch(`https://api.natron.io/api/v1/${selectedTenant}/namespaces`, {
-        method: "get",
-        headers: new Headers({
-          Authorization: `Bearer ${authToken.authenticationToken}`,
-        }),
-      }).then((res) => {
+    if (tenantContext.selectedTenant) {
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/namespaces`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
         res.json().then((jsonObj) => {
           if (jsonObj === null) {
             setNameSpaceCount(0);
@@ -43,7 +40,7 @@ export default function NamespaceCardComponent(props: IRessourceCardComponent) {
         });
       });
     }
-  }, [selectedTenant]);
+  }, [tenantContext.selectedTenant]);
 
   return (
     <CardComponent
