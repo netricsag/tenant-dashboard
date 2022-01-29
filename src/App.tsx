@@ -7,6 +7,8 @@ import Settings from "./Components/Settings";
 import { createContext, useEffect, useState } from "react";
 import drawerContext from "./Components/Items/DrawerContext";
 import Login from "./Components/Login";
+import NatronIconWhite from "./Components/Items/NatronIconWhite";
+import NatronBackground from "./Assets/blob-scatter-haikei.svg";
 
 export const AuthenticationContext = createContext({
   isAuthenticated: false,
@@ -45,6 +47,16 @@ function App() {
       background: { default: "#f5f5f5" },
     },
   });
+
+  const LoginTheme = createTheme({
+    palette: {
+      mode: "light",
+      primary: { main: "#5864ff" },
+      secondary: { main: "#62EE35" },
+      background: { default: "#5864ff" },
+    },
+  });
+
   var drawerPadding = 12;
 
   if (drawerOpenState) {
@@ -71,26 +83,31 @@ function App() {
             updateTeanantList: setCurrentTenantList,
           }}
         >
-          <ThemeProvider theme={Theme}>
+          <ThemeProvider theme={authenticated ? Theme : LoginTheme}>
+            <CssBaseline />
             <drawerContext.Provider
               value={{
                 drawerOpen: drawerOpenState,
                 updateDrawerOpen: setDrawerOpenState,
               }}
             >
-              <CssBaseline />
-
               <Box
                 component="main"
                 sx={{
                   flexGrow: 1,
-                  pt: 12,
-                  pr: 12,
-                  pb: 12,
-                  marginLeft: drawerPadding,
+                  pt: authenticated ? 12 : 0,
+                  pr: authenticated ? 12 : 0,
+                  pb: authenticated ? 12 : 0,
+                  marginLeft: authenticated ? drawerPadding : 0,
                   overflow: "auto",
                   transition:
                     "margin-left 450ms cubic-bezier(0.23, 1, 0.32, 1)",
+
+                  backgroundImage:
+                    authenticated === false ? `url(${NatronBackground})` : "",
+                  backgroundRepeat: authenticated === false ? "no-repeat" : "",
+                  backgroundPosition: authenticated === false ? "center" : "",
+                  backgroundSize: authenticated === false ? "cover" : "",
                 }}
               >
                 <Routes>
@@ -104,12 +121,7 @@ function App() {
                       )
                     }
                   />
-                  <Route
-                    path="login"
-                    element={
-                      authenticated ? <Navigate to="/dashboard" /> : <Login />
-                    }
-                  />
+
                   <Route
                     path="dashboard"
                     element={
@@ -136,6 +148,12 @@ function App() {
                     path="settings"
                     element={
                       authenticated ? <Settings /> : <Navigate to="/login" />
+                    }
+                  />
+                  <Route
+                    path="/login"
+                    element={
+                      authenticated ? <Navigate to="/dashboard" /> : <Login />
                     }
                   />
                 </Routes>

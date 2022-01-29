@@ -48,7 +48,7 @@ export default function TenantDropdown() {
     if (tenantContext.tenantList[0] && tenantContext.selectedTenant == "") {
       tenantContext.updateSelectedTenant(tenantContext.tenantList[0] as string);
     }
-  }, [tenantContext.tenantList[0]]);
+  }, [tenantContext.tenantList]);
 
   return (
     <Box sx={{ minWidth: 120 }}>

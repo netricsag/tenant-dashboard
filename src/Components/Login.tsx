@@ -1,9 +1,11 @@
 import { Login as LoginIcon } from "@mui/icons-material";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { Button, Grid, Paper } from "@mui/material";
-
+import { Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import { AuthenticationContext } from "../App";
+import NatronIcon from "./Items/NatronIcon";
+import NatronIconWhite from "./Items/NatronIconWhite";
+import NatronBackground from "../Assets/blob-scatter-haikei.svg";
 
 export default function Login() {
   const { updateAuthenticated, updateAuthenticationToken } = useContext(
@@ -48,30 +50,44 @@ export default function Login() {
   }, []);
 
   return (
-    <Grid
-      justifyContent="center"
-      alignItems="center"
-      container
-      direction="column"
-    >
-      <Paper
-        elevation={3}
-        sx={{
-          borderRadius: 2,
-          minWidth: "30vw",
-          height: "30vh",
+    <>
+      <Stack direction="row" spacing={3}>
+        <Typography variant="h1" style={{ color: "white" }}>
+          natron.io
+        </Typography>
+        <Typography variant="h1">
+          <NatronIconWhite />
+        </Typography>
+      </Stack>
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        direction="column"
+        style={{
+          width: "100vw",
+          height: "87vh",
         }}
       >
-        <Grid
-          justifyContent="center"
-          alignItems="center"
-          container
-          direction="column"
+        <Paper
+          elevation={3}
+          sx={{
+            borderRadius: 2,
+            minWidth: "30em",
+            maxWidth: "30em",
+            height: "15em",
+            padding: 5,
+          }}
         >
-          <Grid item>
-            <h1>natron.io Login</h1>
-          </Grid>
-          <Grid item>
+          <Stack
+            spacing={4}
+            direction="column"
+            justifyContent="space-around"
+            alignItems="center"
+          >
+            <Typography variant="h3" gutterBottom>
+              Login
+            </Typography>
+
             <Button
               variant="contained"
               color="primary"
@@ -80,12 +96,9 @@ export default function Login() {
             >
               Login with GitHub
             </Button>
-          </Grid>
-          <Grid container item>
-            <></>
-          </Grid>
-        </Grid>
-      </Paper>
-    </Grid>
+          </Stack>
+        </Paper>
+      </Stack>
+    </>
   );
 }
