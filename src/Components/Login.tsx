@@ -54,8 +54,8 @@ export default function Login() {
         alignItems="center"
         direction="column"
         style={{
-          width: "100vw",
-          height: "100vh",
+          width: "95vw",
+          height: "95vh",
         }}
         spacing={4}
       >

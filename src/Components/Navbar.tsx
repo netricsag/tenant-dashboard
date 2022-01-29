@@ -24,7 +24,9 @@ import NatronIconWhite from "./Items/NatronIconWhite";
 import drawerContext from "./Items/DrawerContext";
 import { useContext } from "react";
 import TenantDropdown from "./Items/TenantDropdown";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
+import Logout from "./Logout";
+import LogoutButton from "./Logout";
 
 const drawerWidth = 240;
 
@@ -137,14 +139,26 @@ export default function Navbar() {
           >
             <NatronIconWhite />
           </IconButton>
-          <Grid container spacing={3} alignItems="center">
+          <Grid
+            container
+            justifyContent="space-between"
+            direction="row"
+            alignItems="center"
+          >
             <Grid item>
-              <Typography variant="h4" noWrap component="div">
-                {titleBarText}
-              </Typography>
+              <Grid container spacing={3} alignItems="center">
+                <Grid item>
+                  <Typography variant="h4" noWrap component="div">
+                    {titleBarText}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <TenantDropdown />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item>
-              <TenantDropdown />
+              <LogoutButton />
             </Grid>
           </Grid>
         </Toolbar>
