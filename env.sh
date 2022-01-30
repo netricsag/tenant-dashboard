@@ -35,10 +35,22 @@ if [ -f .env ]; then
   done < .env
 fi
 
-if [ -z "$API_URL" ]; then
-  echo "  API_URL: \"http://localhost:8080\"," >> ./env-config.js
+if [ -z "$REACT_APP_CLIENT_ID" ]; then
+  echo "  REACT_APP_CLIENT_ID: \"<token>\"," >> ./env-config.js
 else
-  echo "  API_URL: \"$API_URL\"," >> ./env-config.js
+  echo "  REACT_APP_CLIENT_ID: \"$REACT_APP_CLIENT_ID\"," >> ./env-config.js
+fi
+
+if [ -z "$REACT_APP_REDIRECT_URI" ]; then
+  echo "  REACT_APP_REDIRECT_URI: \"http://localhost:8080\"," >> ./env-config.js
+else
+  echo "  REACT_APP_REDIRECT_URI: \"$REACT_APP_REDIRECT_URI\"," >> ./env-config.js
+fi
+
+if [ -z "$REACT_APP_API_OAUTH_URI" ]; then
+  echo "  REACT_APP_API_OAUTH_URI: \"http://localhost:8080\"," >> ./env-config.js
+else
+  echo "  REACT_APP_API_OAUTH_URI: \"$REACT_APP_API_OAUTH_URI\"," >> ./env-config.js
 fi
 
 echo "}" >> ./env-config.js
