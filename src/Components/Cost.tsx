@@ -2,6 +2,7 @@ import { Grid, Typography } from "@mui/material";
 import CardComponent from "./Items/CardComponent";
 import Link from "@mui/material/Link";
 import PaidIcon from "@mui/icons-material/Paid";
+import Navbar from "./Navbar";
 
 function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
@@ -10,6 +11,7 @@ function preventDefault(event: React.MouseEvent) {
 export default function Cost() {
   return (
     <>
+      <Navbar />
       <Typography variant="h2" component="div" gutterBottom>
         Kosten
       </Typography>
