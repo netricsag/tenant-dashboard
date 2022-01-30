@@ -5,6 +5,12 @@ import { AuthenticationContext } from "../App";
 
 import NatronIconWhite from "./Items/NatronIconWhite";
 
+declare global {
+  interface Window {
+    _env_: any;
+  }
+}
+
 export default function Login() {
   const { updateAuthenticated, updateAuthenticationToken } = useContext(
     AuthenticationContext
