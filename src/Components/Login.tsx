@@ -5,16 +5,22 @@ import { AuthenticationContext } from "../App";
 
 import NatronIconWhite from "./Items/NatronIconWhite";
 
+declare global {
+  interface Window {
+    _env_: any;
+  }
+}
+
 export default function Login() {
   const { updateAuthenticated, updateAuthenticationToken } = useContext(
     AuthenticationContext
   );
 
-  const apiUrl = process.env.REACT_APP_API_OAUTH_URI;
+  const apiUrl = window._env_.REACT_APP_API_OAUTH_URI;
 
   const getGithubLogin = () => {
     window.open(
-      `https://github.com/login/oauth/authorize?scope=user&client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`,
+      `https://github.com/login/oauth/authorize?scope=user&client_id=${window._env_.REACT_APP_CLIENT_ID}&redirect_uri=${window._env_.REACT_APP_REDIRECT_URI}`,
       "_self"
     );
   };
