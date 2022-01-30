@@ -1,3 +1,5 @@
 window._env_ = {
-  API_URL: "http://localhost:8080",
-}
+  REACT_APP_CLIENT_ID: "<YOUR_CLIENT_ID_HERE>",
+  REACT_APP_REDIRECT_URI: "<REDIRECT_URL>",
+  REACT_APP_API_OAUTH_URI: "<OAUTH_URL>",
+};
