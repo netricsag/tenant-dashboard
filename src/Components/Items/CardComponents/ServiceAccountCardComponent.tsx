@@ -1,11 +1,21 @@
-import { Typography, CircularProgress, Link } from "@mui/material";
+import {
+  Typography,
+  CircularProgress,
+  Link,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@mui/material";
 import CardComponent from "../CardComponent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../App";
+import DetailsModal from "../DetailsModal";
 
 export default function ServiceAccountCardComponent() {
-  const [serviceAccounts, setServiceAccounts] = useState();
+  const [serviceAccounts, setServiceAccounts] = useState([]);
   const [serviceAccountCount, setServiceAccountCount] = useState(0);
 
   const [serviceAccountsLoaded, setServiceAccountsLoaded] = useState(false);
@@ -29,13 +39,19 @@ export default function ServiceAccountCardComponent() {
         }
       ).then((res) => {
         res.json().then((jsonObj) => {
-          let counter = 0;
-          for (let sa in jsonObj) {
-            counter++;
+          if (jsonObj) {
+            let servAccs = [];
+            for (let sa in jsonObj) {
+              servAccs.push(sa);
+            }
+            setServiceAccountCount(servAccs.length);
+            setServiceAccounts(servAccs as []);
+            setServiceAccountsLoaded(true);
+          } else {
+            setServiceAccounts([]);
+            setServiceAccountCount(0);
+            setServiceAccountsLoaded(true);
           }
-          setServiceAccountCount(counter);
-          setServiceAccounts(jsonObj);
-          setServiceAccountsLoaded(true);
         });
       });
     }
@@ -53,15 +69,24 @@ export default function ServiceAccountCardComponent() {
             {serviceAccountCount}
           </Typography>
           {serviceAccountCount > 0 ? (
-            <div>
-              <Link
-                color="primary"
-                href="#"
-                onClick={() => alert("Add Service Account Modal!")}
-              >
-                Details
-              </Link>
-            </div>
+            <DetailsModal title="Service Accounts">
+              <Stack>
+                <Table aria-label="simple table">
+                  <TableBody>
+                    {serviceAccounts.map((row) => (
+                      <TableRow
+                        key={row}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="center">{row}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Stack>
+            </DetailsModal>
           ) : (
             <></>
           )}

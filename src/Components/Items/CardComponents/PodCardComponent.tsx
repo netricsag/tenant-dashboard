@@ -1,8 +1,18 @@
-import { Typography, CircularProgress, Link } from "@mui/material";
+import {
+  Typography,
+  CircularProgress,
+  Link,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@mui/material";
 import CardComponent from "../CardComponent";
 import ViewInAr from "@mui/icons-material/ViewInAr";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../App";
+import DetailsModal from "../DetailsModal";
 
 export default function PodCardComponent() {
   const [pods, setPods] = useState([]);
@@ -54,15 +64,24 @@ export default function PodCardComponent() {
             {podCount}
           </Typography>
           {podCount > 0 ? (
-            <div>
-              <Link
-                color="primary"
-                href="#"
-                onClick={() => alert("Add Service Account Modal!")}
-              >
-                Details
-              </Link>
-            </div>
+            <DetailsModal title="Pods">
+              <Stack>
+                <Table aria-label="simple table">
+                  <TableBody>
+                    {pods.map((row) => (
+                      <TableRow
+                        key={row}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="center">{row}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Stack>
+            </DetailsModal>
           ) : (
             <></>
           )}
