@@ -1,8 +1,17 @@
-import { Typography, CircularProgress, Link } from "@mui/material";
+import {
+  Typography,
+  CircularProgress,
+  TableBody,
+  TableRow,
+  TableCell,
+  Stack,
+  Table,
+} from "@mui/material";
 import CardComponent from "../CardComponent";
 import { CubeTransparentIcon } from "@heroicons/react/outline";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../App";
+import DetailsModal from "../DetailsModal";
 
 export default function NamespaceCardComponent() {
   const [namespaceCount, setNameSpaceCount] = useState(0);
@@ -54,15 +63,24 @@ export default function NamespaceCardComponent() {
             {namespaceCount}
           </Typography>
           {namespaceCount > 0 ? (
-            <div>
-              <Link
-                color="primary"
-                href="#"
-                onClick={() => alert("Add Namespace Modal!")}
-              >
-                Details
-              </Link>
-            </div>
+            <DetailsModal title="Namespaces">
+              <Stack>
+                <Table aria-label="simple table">
+                  <TableBody>
+                    {namespaces.map((row) => (
+                      <TableRow
+                        key={row}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="center">{row}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Stack>
+            </DetailsModal>
           ) : (
             <></>
           )}

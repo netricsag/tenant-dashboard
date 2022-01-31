@@ -1,8 +1,17 @@
-import { Typography, CircularProgress, Link } from "@mui/material";
+import {
+  Typography,
+  CircularProgress,
+  TableRow,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+} from "@mui/material";
 import CardComponent from "../CardComponent";
 import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../App";
+import DetailsModal from "../DetailsModal";
 
 export default function IngressCardComponent() {
   const [ingress, setIngress] = useState([]);
@@ -54,15 +63,24 @@ export default function IngressCardComponent() {
             {ingressCount}
           </Typography>
           {ingressCount > 0 ? (
-            <div>
-              <Link
-                color="primary"
-                href="#"
-                onClick={() => alert("Add Service Account Modal!")}
-              >
-                Details
-              </Link>
-            </div>
+            <DetailsModal title="Ingresses">
+              <Stack>
+                <Table aria-label="simple table">
+                  <TableBody>
+                    {ingress.map((row) => (
+                      <TableRow
+                        key={row}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="center">{row}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Stack>
+            </DetailsModal>
           ) : (
             <></>
           )}

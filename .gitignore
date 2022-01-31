@@ -25,4 +25,4 @@ yarn-error.log*
 /src/MockAPI
 
 *.yaml
-env-config.js
+*env-config.js*
