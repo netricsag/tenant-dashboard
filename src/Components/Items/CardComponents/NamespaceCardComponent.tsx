@@ -74,6 +74,9 @@ export default function NamespaceCardComponent() {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
+                        <TableCell align="center">
+                          <CubeTransparentIcon width={"2.5vh"} />
+                        </TableCell>
                         <TableCell align="center">{row}</TableCell>
                       </TableRow>
                     ))}
