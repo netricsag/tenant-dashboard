@@ -26,6 +26,7 @@ import { useContext } from "react";
 import TenantDropdown from "./Items/TenantDropdown";
 import { Grid, Stack } from "@mui/material";
 import LogoutButton from "./Logout";
+import { TenantContext } from "../App";
 
 const drawerWidth = 240;
 
@@ -101,6 +102,7 @@ const Drawer = styled(MuiDrawer, {
 export default function Navbar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const tenantContext = useContext(TenantContext);
 
   const { updateDrawerOpen } = useContext(drawerContext);
 
@@ -145,11 +147,54 @@ export default function Navbar() {
             alignItems="center"
           >
             <Stack spacing={3} direction="row" alignItems="center">
-              <Grid item>
+              <Grid
+                item
+                sx={{
+                  visibility: {
+                    xs: "hidden",
+                    sm: "hidden",
+                    md: "visible",
+                    lg: "visible",
+                    xl: "visible",
+                  },
+                  display: {
+                    xs: "none",
+                    sm: "none",
+                    md: "flex",
+                    lg: "flex",
+                    xl: "flex",
+                  },
+                }}
+              >
                 <Typography variant="h4" noWrap component="div">
                   {titleBarText}
                 </Typography>
               </Grid>
+
+              <Grid
+                item
+                sx={{
+                  visibility: {
+                    xs: "visible",
+                    sm: "visible",
+                    md: "hidden",
+                    lg: "hidden",
+                    xl: "hidden",
+                  },
+                  display: {
+                    xs: "flex",
+                    sm: "flex",
+                    md: "none",
+                    lg: "none",
+                    xl: "none",
+                  },
+                }}
+              >
+                <Typography variant="h4" noWrap component="div">
+                  {tenantContext.selectedTenant}
+                </Typography>
+              </Grid>
+
               <Grid
                 item
                 sx={{
