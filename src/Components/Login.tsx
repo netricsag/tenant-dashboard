@@ -3,7 +3,7 @@ import { Button, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import { AuthenticationContext } from "../App";
 
-import NatronIconWhite from "./Items/NatronIconWhite";
+import NatronIconWhite from "./Items/Icons/NatronIconWhite";
 
 declare global {
   interface Window {

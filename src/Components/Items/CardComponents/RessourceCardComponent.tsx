@@ -1,8 +1,8 @@
 import { Stack, Typography, CircularProgress, useTheme } from "@mui/material";
 import DynamicFormTwoToneIcon from "@mui/icons-material/DynamicFormTwoTone";
 import CardComponent from "../CardComponent";
-import CpuIcon from "../CpuIcon";
-import RamIcon from "../RAMIcon";
+import CpuIcon from "../Icons/CpuIcon";
+import RamIcon from "../Icons/RAMIcon";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../App";
 
