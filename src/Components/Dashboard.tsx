@@ -7,6 +7,7 @@ import ServiceAccountCardComponent from "./Items/CardComponents/Dashboard/Servic
 import StorageCardComponent from "./Items/CardComponents/Dashboard/StorageCardComponent";
 import RepositoryCardComponent from "./Items/CardComponents/Dashboard/RepositoryCardComponent";
 import IngressCardComponent from "./Items/CardComponents/Dashboard/IngressCardComponent";
+import FloatingTenantChange from "./Items/FloatingTenantChange";
 
 export default function Dashboard() {
   return (
@@ -44,6 +45,7 @@ export default function Dashboard() {
           <RepositoryCardComponent />
         </Grid>
       </Grid>
+      <FloatingTenantChange />
     </>
   );
 }

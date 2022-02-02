@@ -56,12 +56,12 @@ function App() {
     },
   });
 
-  var drawerPadding = 12;
+  var drawerPadding = { xs: 10, sm: 10, md: 12, lg: 12, xl: 12 };
 
   if (drawerOpenState) {
-    drawerPadding = 36;
+    drawerPadding = { xs: 10, sm: 10, md: 36, lg: 36, xl: 36 };
   } else {
-    drawerPadding = 12;
+    drawerPadding = { xs: 10, sm: 10, md: 12, lg: 12, xl: 12 };
   }
 
   return (
@@ -95,7 +95,9 @@ function App() {
                 sx={{
                   flexGrow: 1,
                   pt: authenticated ? 12 : 0,
-                  pr: authenticated ? 12 : 0,
+                  pr: authenticated
+                    ? { xs: 4, sm: 4, md: 12, lg: 12, xl: 12 }
+                    : 0,
                   pb: authenticated ? 12 : 0,
                   marginLeft: authenticated ? drawerPadding : 0,
                   overflow: "auto",
