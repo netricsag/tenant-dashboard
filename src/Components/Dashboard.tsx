@@ -1,12 +1,12 @@
 import { Grid, Typography } from "@mui/material";
 import Navbar from "./Navbar";
-import RessourceCardComponent from "./Items/CardComponents/RessourceCardComponent";
-import NamespaceCardComponent from "./Items/CardComponents/NamespaceCardComponent";
-import PodCardComponent from "./Items/CardComponents/PodCardComponent";
-import ServiceAccountCardComponent from "./Items/CardComponents/ServiceAccountCardComponent";
-import StorageCardComponent from "./Items/CardComponents/StorageCardComponent";
-import RepositoryCardComponent from "./Items/CardComponents/RepositoryCardComponent";
-import IngressCardComponent from "./Items/CardComponents/IngressCardComponent";
+import RessourceCardComponent from "./Items/CardComponents/Dashboard/RessourceCardComponent";
+import NamespaceCardComponent from "./Items/CardComponents/Dashboard/NamespaceCardComponent";
+import PodCardComponent from "./Items/CardComponents/Dashboard/PodCardComponent";
+import ServiceAccountCardComponent from "./Items/CardComponents/Dashboard/ServiceAccountCardComponent";
+import StorageCardComponent from "./Items/CardComponents/Dashboard/StorageCardComponent";
+import RepositoryCardComponent from "./Items/CardComponents/Dashboard/RepositoryCardComponent";
+import IngressCardComponent from "./Items/CardComponents/Dashboard/IngressCardComponent";
 
 export default function Dashboard() {
   return (

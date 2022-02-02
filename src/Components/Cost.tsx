@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import Navbar from "./Navbar";
-import TotalCostCardComponent from "./Items/CardComponents/TotalCostCardComponent";
+import TotalCostCardComponent from "./Items/CardComponents/Cost/TotalCostCardComponent";
 
 function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
