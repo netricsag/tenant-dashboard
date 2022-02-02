@@ -25,6 +25,13 @@ const style = {
   borderRadius: 2,
   overflow: "scroll",
   maxHeight: "75vh",
+  minWidth: {
+    xs: "85vw",
+    sm: "85vw",
+    md: "auto",
+    lg: "auto",
+    xl: "auto",
+  },
   p: 4,
   "::-webkit-scrollbar": {
     width: "0px",
