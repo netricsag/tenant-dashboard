@@ -80,7 +80,6 @@ export default function StorageCardComponent() {
     <CardComponent
       title={"Speicher"}
       titleIcon={<StorageTwoToneIcon fontSize="medium" />}
-      //stackDirection="column"
       contentSpacing={2}
     >
       {storageLoaded ? (
