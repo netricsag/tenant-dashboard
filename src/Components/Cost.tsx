@@ -4,6 +4,7 @@ import TotalCostCardComponent from "./Items/CardComponents/Cost/TotalCostCardCom
 import CostTable from "./Items/CostTable";
 import { useState, useContext, useEffect } from "react";
 import { AuthenticationContext, TenantContext } from "../App";
+import FloatingTenantChange from "./Items/FloatingTenantChange";
 
 export default function Cost() {
   const [totalCost, setTotalCost] = useState(0);
@@ -154,6 +155,7 @@ export default function Cost() {
           </Grid>
         </Grid>
       </Grid>
+      <FloatingTenantChange />
     </>
   );
 }
