@@ -88,6 +88,18 @@ export default function CostTable(props: ICostTable) {
               ) : (
                 <></>
               )}
+
+              <TableRow
+                key="total"
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row" variant="head">
+                  Total
+                </TableCell>
+                <TableCell align="right" variant="head">
+                  {(Math.round(props.totalCost * 100) / 100).toFixed(2)}
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         ) : (
