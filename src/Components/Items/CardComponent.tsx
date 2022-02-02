@@ -31,7 +31,19 @@ export default function CardComponent(props: Props) {
     : (titleSpac = props.titleSpacing);
 
   return (
-    <Paper elevation={3} sx={{ borderRadius: 2 }}>
+    <Paper
+      elevation={3}
+      sx={{
+        borderRadius: 2,
+        minWidth: {
+          xs: "75vw",
+          sm: "75vw",
+          md: "auto",
+          lg: "auto",
+          xl: "auto",
+        },
+      }}
+    >
       <Stack
         direction="row"
         justifyContent="space-between"
