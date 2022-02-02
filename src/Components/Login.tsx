@@ -79,7 +79,13 @@ export default function Login() {
           elevation={3}
           sx={{
             borderRadius: 2,
-            minWidth: "30em",
+            minWidth: {
+              xs: "85vw",
+              sm: "85vw",
+              md: "auto",
+              lg: "auto",
+              xl: "auto",
+            },
             maxWidth: "30em",
             height: "15em",
             padding: 5,
