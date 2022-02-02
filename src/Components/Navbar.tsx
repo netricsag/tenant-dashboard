@@ -150,11 +150,46 @@ export default function Navbar() {
                   {titleBarText}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid
+                item
+                sx={{
+                  visibility: {
+                    xs: "hidden",
+                    sm: "hidden",
+                    md: "visible",
+                    lg: "visible",
+                    xl: "visible",
+                  },
+                  display: {
+                    xs: "none",
+                    sm: "none",
+                    md: "grid",
+                    lg: "grid",
+                    xl: "grid",
+                  },
+                }}
+              >
                 <TenantDropdown />
               </Grid>
             </Stack>
-            <Stack>
+            <Stack
+              sx={{
+                visibility: {
+                  xs: "hidden",
+                  sm: "hidden",
+                  md: "visible",
+                  lg: "visible",
+                  xl: "visible",
+                },
+                display: {
+                  xs: "none",
+                  sm: "none",
+                  md: "flex",
+                  lg: "flex",
+                  xl: "flex",
+                },
+              }}
+            >
               <LogoutButton />
             </Stack>
           </Grid>

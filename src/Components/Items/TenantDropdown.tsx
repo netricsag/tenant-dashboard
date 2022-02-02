@@ -51,7 +51,11 @@ export default function TenantDropdown() {
   }, [tenantContext.tenantList]);
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box
+      sx={{
+        minWidth: 120,
+      }}
+    >
       <FormControl fullWidth>
         <Select
           value={tenantContext.selectedTenant}
