@@ -36,8 +36,8 @@ export default function CardComponent(props: Props) {
       sx={{
         borderRadius: 2,
         minWidth: {
-          xs: "75vw",
-          sm: "75vw",
+          xs: "85vw",
+          sm: "85vw",
           md: "auto",
           lg: "auto",
           xl: "auto",

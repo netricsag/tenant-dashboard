@@ -56,12 +56,12 @@ function App() {
     },
   });
 
-  var drawerPadding = { xs: 10, sm: 10, md: 12, lg: 12, xl: 12 };
+  var drawerPadding = { xs: 4, sm: 4, md: 12, lg: 12, xl: 12 };
 
   if (drawerOpenState) {
-    drawerPadding = { xs: 10, sm: 10, md: 36, lg: 36, xl: 36 };
+    drawerPadding = { xs: 4, sm: 4, md: 36, lg: 36, xl: 36 };
   } else {
-    drawerPadding = { xs: 10, sm: 10, md: 12, lg: 12, xl: 12 };
+    drawerPadding = { xs: 4, sm: 4, md: 12, lg: 12, xl: 12 };
   }
 
   return (
