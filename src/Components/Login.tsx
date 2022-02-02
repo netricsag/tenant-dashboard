@@ -3,7 +3,7 @@ import { Button, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import { AuthenticationContext } from "../App";
 
-import NatronIconWhite from "./Items/NatronIconWhite";
+import NatronIconWhite from "./Items/Icons/NatronIconWhite";
 
 declare global {
   interface Window {
@@ -28,7 +28,6 @@ export default function Login() {
   useEffect(() => {
     const url = window.location.href;
     const hasCode = url.includes("?code=");
-    //console.log(process.env.REACT_APP_API_OAUTH_URI);
 
     if (hasCode) {
       const ghCode = url.split("?code=")[1];

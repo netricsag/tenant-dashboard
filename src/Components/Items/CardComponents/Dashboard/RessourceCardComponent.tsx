@@ -1,10 +1,10 @@
 import { Stack, Typography, CircularProgress, useTheme } from "@mui/material";
 import DynamicFormTwoToneIcon from "@mui/icons-material/DynamicFormTwoTone";
-import CardComponent from "../CardComponent";
-import CpuIcon from "../CpuIcon";
-import RamIcon from "../RAMIcon";
+import CardComponent from "../../CardComponent";
+import CpuIcon from "../../Icons/CpuIcon";
+import RamIcon from "../../Icons/RAMIcon";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext, TenantContext } from "../../../App";
+import { AuthenticationContext, TenantContext } from "../../../../App";
 
 export default function RessourceCardComponent() {
   const [cpuCount, setCpuCount] = useState(0);

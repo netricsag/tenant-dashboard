@@ -1,34 +1,34 @@
 import {
   Typography,
   CircularProgress,
-  TableBody,
   TableRow,
-  TableCell,
   Stack,
   Table,
+  TableBody,
+  TableCell,
 } from "@mui/material";
-import CardComponent from "../CardComponent";
-import { CubeTransparentIcon } from "@heroicons/react/outline";
+import CardComponent from "../../CardComponent";
+import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext, TenantContext } from "../../../App";
-import DetailsModal from "../DetailsModal";
+import { AuthenticationContext, TenantContext } from "../../../../App";
+import DetailsModal from "../../DetailsModal";
 
-export default function NamespaceCardComponent() {
-  const [namespaceCount, setNameSpaceCount] = useState(0);
-  const [namespaces, setNameSpaces] = useState([]);
-  const [nameSpacesLoaded, setNameSpacesLoaded] = useState(false);
+export default function IngressCardComponent() {
+  const [ingress, setIngress] = useState([]);
+  const [ingressCount, setIngressCount] = useState(0);
+  const [ingressLoaded, setIngressLoaded] = useState(false);
 
-  const tenantContext = useContext(TenantContext);
   const authToken = useContext(AuthenticationContext);
+  const tenantContext = useContext(TenantContext);
 
   useEffect(() => {
-    setNameSpacesLoaded(false);
+    setIngressLoaded(false);
   }, [tenantContext.selectedTenant]);
 
   useEffect(() => {
     if (tenantContext.selectedTenant) {
       fetch(
-        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/namespaces`,
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/requests/ingress`,
         {
           method: "get",
           headers: new Headers({
@@ -37,14 +37,14 @@ export default function NamespaceCardComponent() {
         }
       ).then((res) => {
         res.json().then((jsonObj) => {
-          if (jsonObj === null) {
-            setNameSpaceCount(0);
-            setNameSpaces([]);
-            setNameSpacesLoaded(true);
+          if (jsonObj) {
+            setIngress(jsonObj);
+            setIngressCount(jsonObj.length);
+            setIngressLoaded(true);
           } else {
-            setNameSpaceCount(jsonObj.length);
-            setNameSpaces(jsonObj);
-            setNameSpacesLoaded(true);
+            setIngress([]);
+            setIngressCount(0);
+            setIngressLoaded(true);
           }
         });
       });
@@ -53,27 +53,30 @@ export default function NamespaceCardComponent() {
 
   return (
     <CardComponent
-      title="Anzahl Namespaces"
-      titleIcon={<CubeTransparentIcon width={"3vh"} />}
+      title="Anzahl Ingresses"
+      titleIcon={<SettingsEthernetIcon />}
       contentSpacing={1}
     >
-      {nameSpacesLoaded ? (
+      {ingressLoaded ? (
         <>
           <Typography component="p" variant="h4">
-            {namespaceCount}
+            {ingressCount}
           </Typography>
-          {namespaceCount > 0 ? (
-            <DetailsModal title="Namespaces">
+          {ingressCount > 0 ? (
+            <DetailsModal title="Ingresses">
               <Stack>
                 <Table aria-label="simple table">
                   <TableBody>
-                    {namespaces.map((row) => (
+                    {ingress.map((row) => (
                       <TableRow
                         key={row}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
+                        <TableCell align="center">
+                          <SettingsEthernetIcon />
+                        </TableCell>
                         <TableCell align="center">{row}</TableCell>
                       </TableRow>
                     ))}

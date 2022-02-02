@@ -10,11 +10,11 @@ import {
   SelectChangeEvent,
   MenuItem,
 } from "@mui/material";
-import CardComponent from "../CardComponent";
+import CardComponent from "../../CardComponent";
 import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext, TenantContext } from "../../../App";
-import DonutChart from "../DonutChart";
+import { AuthenticationContext, TenantContext } from "../../../../App";
+import DonutChart from "../../DonutChart";
 
 export default function StorageCardComponent() {
   const [selectedStorage, setSelectedStorage] = useState("");
@@ -80,7 +80,6 @@ export default function StorageCardComponent() {
     <CardComponent
       title={"Speicher"}
       titleIcon={<StorageTwoToneIcon fontSize="medium" />}
-      //stackDirection="column"
       contentSpacing={2}
     >
       {storageLoaded ? (

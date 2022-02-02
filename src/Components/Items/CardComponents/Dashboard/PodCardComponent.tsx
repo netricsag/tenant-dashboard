@@ -7,11 +7,11 @@ import {
   TableCell,
   TableRow,
 } from "@mui/material";
-import CardComponent from "../CardComponent";
+import CardComponent from "../../CardComponent";
 import ViewInAr from "@mui/icons-material/ViewInAr";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext, TenantContext } from "../../../App";
-import DetailsModal from "../DetailsModal";
+import { AuthenticationContext, TenantContext } from "../../../../App";
+import DetailsModal from "../../DetailsModal";
 
 export default function PodCardComponent() {
   const [pods, setPods] = useState([]);
@@ -74,6 +74,9 @@ export default function PodCardComponent() {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
+                        <TableCell align="center">
+                          <ViewInAr />
+                        </TableCell>
                         <TableCell align="center">{row}</TableCell>
                       </TableRow>
                     ))}

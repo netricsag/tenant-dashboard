@@ -7,11 +7,11 @@ import {
   TableCell,
   TableRow,
 } from "@mui/material";
-import CardComponent from "../CardComponent";
+import CardComponent from "../../CardComponent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext, TenantContext } from "../../../App";
-import DetailsModal from "../DetailsModal";
+import { AuthenticationContext, TenantContext } from "../../../../App";
+import DetailsModal from "../../DetailsModal";
 
 export default function ServiceAccountCardComponent() {
   const [serviceAccounts, setServiceAccounts] = useState([]);
@@ -79,6 +79,9 @@ export default function ServiceAccountCardComponent() {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
+                        <TableCell align="center">
+                          <AccountCircleIcon />
+                        </TableCell>
                         <TableCell align="center">{row}</TableCell>
                       </TableRow>
                     ))}

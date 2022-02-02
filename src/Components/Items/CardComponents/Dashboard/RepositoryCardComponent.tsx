@@ -1,8 +1,8 @@
 import { Button } from "@mui/material";
-import CardComponent from "../CardComponent";
+import CardComponent from "../../CardComponent";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext, TenantContext } from "../../../App";
+import { AuthenticationContext, TenantContext } from "../../../../App";
 
 export default function RepositoryCardComponent() {
   const [repositoryLoaded, setRepositoryLoaded] = useState(false);
