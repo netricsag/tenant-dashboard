@@ -5,17 +5,6 @@ import CostTable from "./Items/CostTable";
 import { useState, useContext, useEffect } from "react";
 import { AuthenticationContext, TenantContext } from "../App";
 
-function preventDefault(event: React.MouseEvent) {
-  event.preventDefault();
-}
-
-interface ICost {
-  cpuCostInterface: number;
-  memoryCostInterface: number;
-  storageCostInterface: number;
-  ingressCostInterface: number;
-}
-
 export default function Cost() {
   const [totalCost, setTotalCost] = useState(0);
   const [cpuCost, setCpuCost] = useState(0);
@@ -27,15 +16,6 @@ export default function Cost() {
 
   const authToken = useContext(AuthenticationContext);
   const tenantContext = useContext(TenantContext);
-
-  /*useEffect(() => {
-    setCostLoaded(false);
-    setTotalCost(0);
-    setCpuCost(0);
-    setMemoryCost(0);
-    setStorageCost(0);
-    setIngressCost(0);
-  }, [tenantContext.selectedTenant]);*/
 
   useEffect(() => {
     setCostLoaded(false);

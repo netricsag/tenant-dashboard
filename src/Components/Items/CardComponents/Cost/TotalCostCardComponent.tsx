@@ -1,9 +1,6 @@
 import { Button, CircularProgress, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 import CardComponent from "../../CardComponent";
 import PaidIcon from "@mui/icons-material/Paid";
-import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext, TenantContext } from "../../../../App";
 
 interface ITotalCost {
   totalCost: number;
