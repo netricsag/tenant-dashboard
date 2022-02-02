@@ -25,8 +25,9 @@ import drawerContext from "./Items/DrawerContext";
 import { useContext } from "react";
 import TenantDropdown from "./Items/TenantDropdown";
 import { Grid, Stack } from "@mui/material";
+import { AuthenticationContext, TenantContext } from "../App";
+import LogoutIcon from "@mui/icons-material/Logout";
 import LogoutButton from "./Logout";
-import { TenantContext } from "../App";
 
 const drawerWidth = 240;
 
@@ -114,6 +115,14 @@ export default function Navbar() {
   const handleDrawerClose = () => {
     setOpen(false);
     updateDrawerOpen(false);
+  };
+
+  const authContext = useContext(AuthenticationContext);
+
+  const Logout = () => {
+    localStorage.removeItem("tenant-api-token");
+    authContext.updateAuthenticationToken("");
+    authContext.updateAuthenticated(false);
   };
 
   const titleBarText = "Natron Tenant";
@@ -308,6 +317,12 @@ export default function Navbar() {
         </List>
 
         <List style={{ marginTop: "auto" }}>
+          <ListItem button key={"Logout"} onClick={Logout}>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Logout"} />
+          </ListItem>
           <Divider />
           <ListItem button key={"Settings"} component={Link} to={"/settings"}>
             <ListItemIcon>
