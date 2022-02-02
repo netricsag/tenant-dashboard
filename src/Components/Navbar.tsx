@@ -240,7 +240,26 @@ export default function Navbar() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer
+        variant="permanent"
+        open={open}
+        sx={{
+          visibility: {
+            xs: open ? "visible" : "hidden",
+            sm: open ? "visible" : "hidden",
+            md: "visible",
+            lg: "visible",
+            xl: "visible",
+          },
+          display: {
+            xs: open ? "flex" : "none",
+            sm: open ? "flex" : "none",
+            md: "flex",
+            lg: "flex",
+            xl: "flex",
+          },
+        }}
+      >
         <DrawerHeader>
           <IconButton
             onClick={handleDrawerClose}
