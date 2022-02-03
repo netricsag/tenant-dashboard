@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import CardComponent from "../../CardComponent";
 import PaidIcon from "@mui/icons-material/Paid";
 
@@ -17,15 +17,9 @@ export default function TotalCostCardComponent(props: ITotalCost) {
       {props.costsLoaded ? (
         <>
           <Typography variant="h4">Total</Typography>
-          <Typography variant="h4">
+          <Typography variant="h5">
             CHF {(Math.round(props.totalCost * 100) / 100).toFixed(2)}
           </Typography>
-          <Typography color="text.secondary" sx={{ flex: 1 }}>
-            am 01.03.2023
-          </Typography>
-          <div>
-            <Button>Details</Button>
-          </div>
         </>
       ) : (
         <CircularProgress color="primary" />
