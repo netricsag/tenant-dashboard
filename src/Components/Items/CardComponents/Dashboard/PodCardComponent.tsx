@@ -12,6 +12,7 @@ import ViewInAr from "@mui/icons-material/ViewInAr";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DetailsModal from "../../DetailsModal";
+import { Logout } from "../../../Logout";
 
 export default function PodCardComponent() {
   const [pods, setPods] = useState([]);
@@ -36,17 +37,21 @@ export default function PodCardComponent() {
           }),
         }
       ).then((res) => {
-        res.json().then((jsonObj) => {
-          if (jsonObj) {
-            setPods(jsonObj);
-            setPodCount(jsonObj.length);
-            setPodsLoaded(true);
-          } else {
-            setPods([]);
-            setPodCount(0);
-            setPodsLoaded(true);
-          }
-        });
+        if (res.status === 200) {
+          res.json().then((jsonObj) => {
+            if (jsonObj) {
+              setPods(jsonObj);
+              setPodCount(jsonObj.length);
+              setPodsLoaded(true);
+            } else {
+              setPods([]);
+              setPodCount(0);
+              setPodsLoaded(true);
+            }
+          });
+        } else if (res.status === 403) {
+          Logout();
+        }
       });
     }
   }, [tenantContext.selectedTenant]);
