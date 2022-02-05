@@ -8,6 +8,7 @@ import { Box } from "@mui/system";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext } from "../../App";
 import { TenantContext } from "../../App";
+import { Logout } from "../Logout";
 
 export default function TenantDropdown() {
   const [tenants, setTenants] = useState([]);
@@ -35,9 +36,13 @@ export default function TenantDropdown() {
           Authorization: `Bearer ${authToken.authenticationToken}`,
         }),
       }).then((res) => {
-        res.json().then((jsonObj) => {
-          tenantContext.updateTeanantList(jsonObj);
-        });
+        if (res.status === 200) {
+          res.json().then((jsonObj) => {
+            tenantContext.updateTeanantList(jsonObj);
+          });
+        } else if (res.status === 403) {
+          Logout();
+        }
       });
     } else {
       tenantContext.updateSelectedTenant(tenantContext.selectedTenant);

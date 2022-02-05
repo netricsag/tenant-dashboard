@@ -12,6 +12,7 @@ import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DetailsModal from "../../DetailsModal";
+import { Logout } from "../../../Logout";
 
 export default function IngressCardComponent() {
   const [ingress, setIngress] = useState([]);
@@ -36,17 +37,21 @@ export default function IngressCardComponent() {
           }),
         }
       ).then((res) => {
-        res.json().then((jsonObj) => {
-          if (jsonObj) {
-            setIngress(jsonObj);
-            setIngressCount(jsonObj.length);
-            setIngressLoaded(true);
-          } else {
-            setIngress([]);
-            setIngressCount(0);
-            setIngressLoaded(true);
-          }
-        });
+        if (res.status === 200) {
+          res.json().then((jsonObj) => {
+            if (jsonObj) {
+              setIngress(jsonObj);
+              setIngressCount(jsonObj.length);
+              setIngressLoaded(true);
+            } else {
+              setIngress([]);
+              setIngressCount(0);
+              setIngressLoaded(true);
+            }
+          });
+        } else if (res.status === 403) {
+          Logout();
+        }
       });
     }
   }, [tenantContext.selectedTenant]);
