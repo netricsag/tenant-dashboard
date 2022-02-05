@@ -38,6 +38,13 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    if (localStorage.getItem("tenant-api-token") !== authenticationToken) {
+      const newToken = localStorage.getItem("tenant-api-token");
+      setAuthenticationToken(newToken as string);
+    }
+  }, [localStorage.getItem("tenant-api-token")]);
+
   const Theme = createTheme({
     palette: {
       mode: "light",

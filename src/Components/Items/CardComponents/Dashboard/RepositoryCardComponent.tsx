@@ -3,6 +3,7 @@ import CardComponent from "../../CardComponent";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
+import { Logout } from "../../../Logout";
 
 export default function RepositoryCardComponent() {
   const [repositoryLoaded, setRepositoryLoaded] = useState(false);
@@ -22,9 +23,13 @@ export default function RepositoryCardComponent() {
           Authorization: `Bearer ${authToken.authenticationToken}`,
         }),
       }).then((res) => {
+        if(res.status === 200){
         res.json().then((jsonObj) => {
           console.log("Repo loaded")
         });
+      } else if (res.status === 403) {
+          Logout();
+        }
       });*/
     }
   }, [tenantContext.selectedTenant]);
