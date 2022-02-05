@@ -12,7 +12,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DetailsModal from "../../DetailsModal";
-import { Logout } from "../../../Logout";
 
 export default function ServiceAccountCardComponent() {
   const [serviceAccounts, setServiceAccounts] = useState([]);
@@ -38,25 +37,21 @@ export default function ServiceAccountCardComponent() {
           }),
         }
       ).then((res) => {
-        if (res.status === 200) {
-          res.json().then((jsonObj) => {
-            if (jsonObj) {
-              let servAccs = [];
-              for (let sa in jsonObj) {
-                servAccs.push(sa);
-              }
-              setServiceAccountCount(servAccs.length);
-              setServiceAccounts(servAccs as []);
-              setServiceAccountsLoaded(true);
-            } else {
-              setServiceAccounts([]);
-              setServiceAccountCount(0);
-              setServiceAccountsLoaded(true);
+        res.json().then((jsonObj) => {
+          if (jsonObj) {
+            let servAccs = [];
+            for (let sa in jsonObj) {
+              servAccs.push(sa);
             }
-          });
-        } else if (res.status === 403) {
-          Logout();
-        }
+            setServiceAccountCount(servAccs.length);
+            setServiceAccounts(servAccs as []);
+            setServiceAccountsLoaded(true);
+          } else {
+            setServiceAccounts([]);
+            setServiceAccountCount(0);
+            setServiceAccountsLoaded(true);
+          }
+        });
       });
     }
   }, [tenantContext.selectedTenant]);

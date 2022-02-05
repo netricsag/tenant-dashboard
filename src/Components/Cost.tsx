@@ -5,7 +5,6 @@ import CostTable from "./Items/CostTable";
 import { useState, useContext, useEffect } from "react";
 import { AuthenticationContext, TenantContext } from "../App";
 import FloatingTenantChange from "./Items/FloatingTenantChange";
-import { Logout } from "./Logout";
 
 export default function Cost() {
   const [totalCost, setTotalCost] = useState(0);
@@ -31,17 +30,13 @@ export default function Cost() {
           }),
         }
       ).then((res) => {
-        if (res.status === 200) {
-          res.json().then((jsonObj) => {
-            if (jsonObj) {
-              setCpuCost(jsonObj);
-            } else {
-              setCpuCost(0);
-            }
-          });
-        } else if (res.status === 403) {
-          Logout();
-        }
+        res.json().then((jsonObj) => {
+          if (jsonObj) {
+            setCpuCost(jsonObj);
+          } else {
+            setCpuCost(0);
+          }
+        });
       });
 
       fetch(
@@ -53,17 +48,13 @@ export default function Cost() {
           }),
         }
       ).then((res) => {
-        if (res.status === 200) {
-          res.json().then((jsonObj) => {
-            if (jsonObj) {
-              setMemoryCost(jsonObj);
-            } else {
-              setMemoryCost(0);
-            }
-          });
-        } else if (res.status === 403) {
-          Logout();
-        }
+        res.json().then((jsonObj) => {
+          if (jsonObj) {
+            setMemoryCost(jsonObj);
+          } else {
+            setMemoryCost(0);
+          }
+        });
       });
       fetch(
         `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/costs/storage`,
@@ -88,8 +79,6 @@ export default function Cost() {
               setStorageObject(null);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
         } else {
           setStorageCost(0);
           setStorageObject(null);
@@ -104,17 +93,13 @@ export default function Cost() {
           }),
         }
       ).then((res) => {
-        if (res.status === 200) {
-          res.json().then((jsonObj) => {
-            if (jsonObj) {
-              setIngressCost(jsonObj);
-            } else {
-              setIngressCost(0);
-            }
-          });
-        } else if (res.status === 403) {
-          Logout();
-        }
+        res.json().then((jsonObj) => {
+          if (jsonObj) {
+            setIngressCost(jsonObj);
+          } else {
+            setIngressCost(0);
+          }
+        });
       });
     }
   }, [tenantContext.selectedTenant]);

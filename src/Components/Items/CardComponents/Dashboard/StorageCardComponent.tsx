@@ -15,7 +15,6 @@ import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DonutChart from "../../DonutChart";
-import { Logout } from "../../../Logout";
 
 export default function StorageCardComponent() {
   const [selectedStorage, setSelectedStorage] = useState("");
@@ -62,21 +61,17 @@ export default function StorageCardComponent() {
           }),
         }
       ).then((res) => {
-        if (res.status === 200) {
-          res.json().then((jsonObj) => {
-            if (jsonObj != null) {
-              SetStorageObject(jsonObj);
-              setStorage(Object.keys(jsonObj));
-              setStorageLoaded(true);
-            } else {
-              SetStorageObject("");
-              setStorage([]);
-              setStorageLoaded(true);
-            }
-          });
-        } else if (res.status === 403) {
-          Logout();
-        }
+        res.json().then((jsonObj) => {
+          if (jsonObj != null) {
+            SetStorageObject(jsonObj);
+            setStorage(Object.keys(jsonObj));
+            setStorageLoaded(true);
+          } else {
+            SetStorageObject("");
+            setStorage([]);
+            setStorageLoaded(true);
+          }
+        });
       });
     }
   }, [tenantContext.selectedTenant]);

@@ -12,7 +12,6 @@ import { CubeTransparentIcon } from "@heroicons/react/outline";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DetailsModal from "../../DetailsModal";
-import { Logout } from "../../../Logout";
 
 export default function NamespaceCardComponent() {
   const [namespaceCount, setNameSpaceCount] = useState(0);
@@ -37,21 +36,17 @@ export default function NamespaceCardComponent() {
           }),
         }
       ).then((res) => {
-        if (res.status === 200) {
-          res.json().then((jsonObj) => {
-            if (jsonObj === null) {
-              setNameSpaceCount(0);
-              setNameSpaces([]);
-              setNameSpacesLoaded(true);
-            } else {
-              setNameSpaceCount(jsonObj.length);
-              setNameSpaces(jsonObj);
-              setNameSpacesLoaded(true);
-            }
-          });
-        } else if (res.status === 403) {
-          Logout();
-        }
+        res.json().then((jsonObj) => {
+          if (jsonObj === null) {
+            setNameSpaceCount(0);
+            setNameSpaces([]);
+            setNameSpacesLoaded(true);
+          } else {
+            setNameSpaceCount(jsonObj.length);
+            setNameSpaces(jsonObj);
+            setNameSpacesLoaded(true);
+          }
+        });
       });
     }
   }, [tenantContext.selectedTenant]);

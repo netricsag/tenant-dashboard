@@ -5,7 +5,6 @@ import CpuIcon from "../../Icons/CpuIcon";
 import RamIcon from "../../Icons/RAMIcon";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
-import { Logout } from "../../../Logout";
 
 export default function RessourceCardComponent() {
   const [cpuCount, setCpuCount] = useState(0);
@@ -36,14 +35,10 @@ export default function RessourceCardComponent() {
           }),
         }
       ).then((res) => {
-        if (res.status === 200) {
-          res.json().then((jsonObj) => {
-            setCpuCount(jsonObj);
-            setCpuLoaded(true);
-          });
-        } else if (res.status === 403) {
-          Logout();
-        }
+        res.json().then((jsonObj) => {
+          setCpuCount(jsonObj);
+          setCpuLoaded(true);
+        });
       });
 
       fetch(
@@ -55,19 +50,15 @@ export default function RessourceCardComponent() {
           }),
         }
       ).then((res) => {
-        if (res.status === 200) {
-          res.json().then((jsonObj) => {
-            jsonObj = jsonObj / 1024 / 1024;
-            if (jsonObj >= 10000) {
-              jsonObj = jsonObj / 1024;
-              setRamMetric("GB");
-            }
-            setRamByteCount(jsonObj);
-            setRamLoaded(true);
-          });
-        } else if (res.status === 403) {
-          Logout();
-        }
+        res.json().then((jsonObj) => {
+          jsonObj = jsonObj / 1024 / 1024;
+          if (jsonObj >= 10000) {
+            jsonObj = jsonObj / 1024;
+            setRamMetric("GB");
+          }
+          setRamByteCount(jsonObj);
+          setRamLoaded(true);
+        });
       });
     }
   }, [tenantContext.selectedTenant]);
