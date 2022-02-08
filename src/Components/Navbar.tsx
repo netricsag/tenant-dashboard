@@ -109,13 +109,15 @@ export default function Navbar() {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    updateDrawerOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
-    updateDrawerOpen(false);
   };
+
+  React.useEffect(() => {
+    updateDrawerOpen(open);
+  }, [open]);
 
   const authContext = useContext(AuthenticationContext);
 
