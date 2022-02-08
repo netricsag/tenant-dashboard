@@ -41,6 +41,8 @@ export default function RessourceCardComponent() {
             setCpuLoaded(true);
           });
         } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
           authToken.updateAuthenticated(false);
         }
       });
@@ -65,6 +67,8 @@ export default function RessourceCardComponent() {
             setRamLoaded(true);
           });
         } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
           authToken.updateAuthenticated(false);
         }
       });

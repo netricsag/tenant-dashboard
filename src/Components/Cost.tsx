@@ -39,6 +39,8 @@ export default function Cost() {
             }
           });
         } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
           authToken.updateAuthenticated(false);
         }
       });
@@ -61,6 +63,8 @@ export default function Cost() {
             }
           });
         } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
           authToken.updateAuthenticated(false);
         }
       });
@@ -88,6 +92,8 @@ export default function Cost() {
             }
           });
         } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
           authToken.updateAuthenticated(false);
         } else {
           setStorageCost(0);
@@ -112,6 +118,8 @@ export default function Cost() {
             }
           });
         } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
           authToken.updateAuthenticated(false);
         }
       });

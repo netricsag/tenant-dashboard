@@ -54,6 +54,8 @@ export default function ServiceAccountCardComponent() {
             }
           });
         } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
           authToken.updateAuthenticated(false);
         }
       });
