@@ -17,7 +17,11 @@ interface Props {
 export default function DonutChart(props: Props) {
   const data = [
     { name: "Belegt", value: props.primaryValue, unit: "GB" },
-    { name: "Frei", value: props.secondaryValue, unit: "GB" },
+    {
+      name: "Frei",
+      value: props.secondaryValue - props.primaryValue,
+      unit: "GB",
+    },
   ];
 
   const theme = useTheme();

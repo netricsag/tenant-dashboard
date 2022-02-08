@@ -109,7 +109,7 @@ export default function StorageCardComponent() {
     >
       {storageLoaded ? (
         <>
-          {storageObject ? (
+          {storageObject && storageQuotaObject ? (
             <Grid item>
               <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
