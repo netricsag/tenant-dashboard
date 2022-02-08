@@ -1,5 +1,4 @@
 import { Paper, Stack, Typography, Divider, Box } from "@mui/material";
-import { ResponsiveStyleValue } from "@mui/system";
 import SlackIcon from "../../Icons/SlackIcon";
 
 interface IMessageCard {
@@ -8,7 +7,6 @@ interface IMessageCard {
   timestamp: string;
   messageLink: string;
   userAvatarUrl: string;
-  //children: JSX.Element | JSX.Element[];
 }
 
 export default function MessageCard(props: IMessageCard) {
