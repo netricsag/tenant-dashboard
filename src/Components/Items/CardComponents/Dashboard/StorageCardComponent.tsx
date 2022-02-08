@@ -139,10 +139,10 @@ export default function StorageCardComponent() {
                     primaryValue={
                       storageObject[selectedStorage] / 1024 / 1024 / 1024
                     }
-                    secondaryValue={storageQuotaObject[selectedStorage]}
+                    secondaryValue={storageQuotaObject[selectedStorage] / 1024 / 1024 / 1024}
                     innerText={
                       100 -
-                      (100 / storageQuotaObject[selectedStorage]) *
+                      (100 / storageQuotaObject[selectedStorage] / 1024 / 1024 / 1024) *
                         (storageObject[selectedStorage] / 1024 / 1024 / 1024) +
                       "% Frei"
                     }
