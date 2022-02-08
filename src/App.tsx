@@ -45,13 +45,13 @@ function App() {
     }
   }, [localStorage.getItem("tenant-api-token")]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (authenticated === false) {
       localStorage.removeItem("tenant-api-token");
       setAuthenticationToken("");
       setAuthenticated(false);
     }
-  }, [authenticated]);
+  }, [authenticated]); */
 
   const Theme = createTheme({
     palette: {
