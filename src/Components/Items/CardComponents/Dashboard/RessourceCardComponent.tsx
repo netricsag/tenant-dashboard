@@ -5,12 +5,18 @@ import CpuIcon from "../../Icons/CpuIcon";
 import RamIcon from "../../Icons/RAMIcon";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
-import { Logout } from "../../../Logout";
 
 export default function RessourceCardComponent() {
   const [cpuCount, setCpuCount] = useState(0);
   const [ramByteCount, setRamByteCount] = useState(0);
   const [ramMetric, setRamMetric] = useState("MB");
+  const [cpuMetric, setCpuMetric] = useState("mCPU");
+
+  const [ramQuotaMetric, setRamQuotaMetric] = useState("MB");
+  const [cpuQuotaMetric, setCpuQuotaMetric] = useState("mCPU");
+
+  const [cpuQuota, setCpuQuota] = useState(0);
+  const [memoryQuota, setMemoryQuota] = useState(0);
 
   const [cpuLoaded, setCpuLoaded] = useState(false);
   const [ramLoaded, setRamLoaded] = useState(false);
@@ -38,11 +44,15 @@ export default function RessourceCardComponent() {
       ).then((res) => {
         if (res.status === 200) {
           res.json().then((jsonObj) => {
-            setCpuCount(jsonObj);
+            setCpuCount(jsonObj / 1000);
+            setCpuMetric("Cores");
+
             setCpuLoaded(true);
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
         }
       });
 
@@ -57,16 +67,62 @@ export default function RessourceCardComponent() {
       ).then((res) => {
         if (res.status === 200) {
           res.json().then((jsonObj) => {
-            jsonObj = jsonObj / 1024 / 1024;
-            if (jsonObj >= 10000) {
-              jsonObj = jsonObj / 1024;
-              setRamMetric("GB");
-            }
+            jsonObj = jsonObj / 1024 / 1024 / 1024;
+
+            setRamMetric("GB");
+
             setRamByteCount(jsonObj);
             setRamLoaded(true);
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
+        }
+      });
+
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/quotas/cpu`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
+        if (res.status === 200) {
+          res.json().then((jsonObj) => {
+            if (jsonObj) {
+              setCpuQuota(jsonObj / 1000);
+              setCpuQuotaMetric("Cores");
+            }
+          });
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
+        }
+      });
+
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/quotas/memory`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
+        if (res.status === 200) {
+          res.json().then((jsonObj) => {
+            if (jsonObj) {
+              setMemoryQuota(jsonObj);
+            }
+          });
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
         }
       });
     }
@@ -76,7 +132,7 @@ export default function RessourceCardComponent() {
     <CardComponent
       title="Ressourcen"
       titleIcon={<DynamicFormTwoToneIcon fontSize="medium" />}
-      stackDirection="row"
+      stackDirection="column"
     >
       <Stack
         direction="column"
@@ -91,8 +147,10 @@ export default function RessourceCardComponent() {
           <CpuIcon />
         </Typography>
         {cpuLoaded ? (
-          <Typography variant="h5" component="div">
-            {cpuCount} mCPU
+          <Typography variant="h5" component="div" noWrap>
+            {`${cpuCount.toFixed(2)} / ${cpuQuota.toFixed(
+              2
+            )} ${cpuQuotaMetric}`}
           </Typography>
         ) : (
           <CircularProgress color="primary" />
@@ -112,8 +170,8 @@ export default function RessourceCardComponent() {
           <RamIcon />
         </Typography>
         {ramLoaded ? (
-          <Typography variant="h5" component="div">
-            {ramByteCount} {ramMetric}
+          <Typography variant="h5" component="div" noWrap>
+            {`${ramByteCount.toFixed(2)} / ${memoryQuota.toFixed(2)} GB`}
           </Typography>
         ) : (
           <CircularProgress color="secondary" />

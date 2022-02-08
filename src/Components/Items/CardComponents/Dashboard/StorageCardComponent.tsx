@@ -15,19 +15,17 @@ import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DonutChart from "../../DonutChart";
-import { Logout } from "../../../Logout";
 
 export default function StorageCardComponent() {
   const [selectedStorage, setSelectedStorage] = useState("");
   const [storage, setStorage] = useState<string[]>([]);
   const [storageObject, SetStorageObject] = useState<any>();
+  const [storageQuotaObject, setStorageQuotaObject] = useState<any>();
 
   const [storageLoaded, setStorageLoaded] = useState(false);
 
   const authToken = useContext(AuthenticationContext);
   const tenantContext = useContext(TenantContext);
-
-  const diskFree = 20;
 
   const handleStorageChange = (event: SelectChangeEvent) => {
     setSelectedStorage(event.target.value as string);
@@ -74,8 +72,34 @@ export default function StorageCardComponent() {
               setStorageLoaded(true);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
+        }
+      });
+
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/quotas/storage`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
+        if (res.status === 200) {
+          res.json().then((jsonObj) => {
+            if (jsonObj != null) {
+              setStorageQuotaObject(jsonObj);
+            } else {
+              setStorageQuotaObject({});
+            }
+          });
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
         }
       });
     }
@@ -89,7 +113,7 @@ export default function StorageCardComponent() {
     >
       {storageLoaded ? (
         <>
-          {storageObject ? (
+          {storageObject && storageQuotaObject ? (
             <Grid item>
               <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
@@ -115,15 +139,22 @@ export default function StorageCardComponent() {
                     primaryValue={
                       storageObject[selectedStorage] / 1024 / 1024 / 1024
                     }
-                    secondaryValue={diskFree}
-                    innerText={diskFree + "% Frei"}
+                    secondaryValue={storageQuotaObject[selectedStorage]}
+                    innerText={
+                      100 -
+                      (100 / storageQuotaObject[selectedStorage]) *
+                        (storageObject[selectedStorage] / 1024 / 1024 / 1024) +
+                      "% Frei"
+                    }
                   />
                   <Typography variant="h6" component="div">
                     Belegt:
                   </Typography>
                   <Typography variant="body1" component="div">
-                    {storageObject[selectedStorage] / 1024 / 1024 / 1024} GB /
-                    20 GB
+                    {storageObject[selectedStorage] / 1024 / 1024 / 1024 +
+                      " GB / " +
+                      storageQuotaObject[selectedStorage] +
+                      " GB"}
                   </Typography>
                 </Stack>
               </Grid>

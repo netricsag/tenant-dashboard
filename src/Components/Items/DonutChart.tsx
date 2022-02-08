@@ -16,8 +16,12 @@ interface Props {
 
 export default function DonutChart(props: Props) {
   const data = [
-    { name: "Belegt", value: props.primaryValue, unit: "%" },
-    { name: "Frei", value: props.secondaryValue, unit: "%" },
+    { name: "Belegt", value: props.primaryValue, unit: "GB" },
+    {
+      name: "Frei",
+      value: props.secondaryValue - props.primaryValue,
+      unit: "GB",
+    },
   ];
 
   const theme = useTheme();
@@ -42,7 +46,7 @@ export default function DonutChart(props: Props) {
           <Label value={props.innerText} position="center" />
         </Pie>
 
-        <Tooltip formatter={(value: any) => value + "%"} />
+        <Tooltip formatter={(value: any) => value + " GB"} />
       </PieChart>
     </ResponsiveContainer>
   );

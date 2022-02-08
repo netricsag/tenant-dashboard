@@ -40,7 +40,9 @@ export default function CostTable(props: ICostTable) {
                 <TableCell component="th" scope="row">
                   CPU
                 </TableCell>
-                <TableCell align="right">{props.cpuCost}</TableCell>
+                <TableCell align="right">
+                  {(Math.round(props.cpuCost * 100) / 100).toFixed(2)}
+                </TableCell>
               </TableRow>
               <TableRow
                 key="memory"
@@ -49,7 +51,9 @@ export default function CostTable(props: ICostTable) {
                 <TableCell component="th" scope="row">
                   Memory
                 </TableCell>
-                <TableCell align="right">{props.memoryCost}</TableCell>
+                <TableCell align="right">
+                  {(Math.round(props.memoryCost * 100) / 100).toFixed(2)}
+                </TableCell>
               </TableRow>
               <TableRow
                 key="ingress"
@@ -58,7 +62,9 @@ export default function CostTable(props: ICostTable) {
                 <TableCell component="th" scope="row">
                   Ingress
                 </TableCell>
-                <TableCell align="right">{props.ingressCost}</TableCell>
+                <TableCell align="right">
+                  {(Math.round(props.ingressCost * 100) / 100).toFixed(2)}
+                </TableCell>
               </TableRow>
 
               {props.storageObject ? (

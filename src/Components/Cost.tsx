@@ -5,7 +5,6 @@ import CostTable from "./Items/CostTable";
 import { useState, useContext, useEffect } from "react";
 import { AuthenticationContext, TenantContext } from "../App";
 import FloatingTenantChange from "./Items/FloatingTenantChange";
-import { Logout } from "./Logout";
 
 export default function Cost() {
   const [totalCost, setTotalCost] = useState(0);
@@ -39,8 +38,10 @@ export default function Cost() {
               setCpuCost(0);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
         }
       });
 
@@ -61,8 +62,10 @@ export default function Cost() {
               setMemoryCost(0);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
         }
       });
       fetch(
@@ -88,8 +91,10 @@ export default function Cost() {
               setStorageObject(null);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
         } else {
           setStorageCost(0);
           setStorageObject(null);
@@ -112,8 +117,10 @@ export default function Cost() {
               setIngressCost(0);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
         }
       });
     }

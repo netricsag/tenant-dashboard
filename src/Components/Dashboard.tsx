@@ -1,9 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import Navbar from "./Navbar";
 import RessourceCardComponent from "./Items/CardComponents/Dashboard/RessourceCardComponent";
-import NamespaceCardComponent from "./Items/CardComponents/Dashboard/NamespaceCardComponent";
 import PodCardComponent from "./Items/CardComponents/Dashboard/PodCardComponent";
-import ServiceAccountCardComponent from "./Items/CardComponents/Dashboard/ServiceAccountCardComponent";
 import StorageCardComponent from "./Items/CardComponents/Dashboard/StorageCardComponent";
 import RepositoryCardComponent from "./Items/CardComponents/Dashboard/RepositoryCardComponent";
 import IngressCardComponent from "./Items/CardComponents/Dashboard/IngressCardComponent";
@@ -30,16 +28,10 @@ export default function Dashboard() {
           <RessourceCardComponent />
         </Grid>
         <Grid item>
-          <NamespaceCardComponent />
-        </Grid>
-        <Grid item>
           <PodCardComponent />
         </Grid>
         <Grid item>
           <IngressCardComponent />
-        </Grid>
-        <Grid item>
-          <ServiceAccountCardComponent />
         </Grid>
         <Grid item>
           <RepositoryCardComponent />
