@@ -9,7 +9,12 @@ import { AuthenticationContext, TenantContext } from "../../../../App";
 export default function RessourceCardComponent() {
   const [cpuCount, setCpuCount] = useState(0);
   const [ramByteCount, setRamByteCount] = useState(0);
-  const [ramMetric, setRamMetric] = useState("GB");
+  const [ramMetric, setRamMetric] = useState("MB");
+  const [cpuMetric, setCpuMetric] = useState("mCPU");
+
+  const [ramQuotaMetric, setRamQuotaMetric] = useState("MB");
+  const [cpuQuotaMetric, setCpuQuotaMetric] = useState("mCPU");
+
   const [cpuQuota, setCpuQuota] = useState(0);
   const [memoryQuota, setMemoryQuota] = useState(0);
 
@@ -40,6 +45,8 @@ export default function RessourceCardComponent() {
         if (res.status === 200) {
           res.json().then((jsonObj) => {
             setCpuCount(jsonObj / 1000);
+            setCpuMetric("Cores");
+
             setCpuLoaded(true);
           });
         } else if (res.status === 401) {
@@ -86,7 +93,8 @@ export default function RessourceCardComponent() {
         if (res.status === 200) {
           res.json().then((jsonObj) => {
             if (jsonObj) {
-              setCpuQuota(jsonObj);
+              setCpuQuota(jsonObj / 1000);
+              setCpuQuotaMetric("Cores");
             }
           });
         } else if (res.status === 401) {
@@ -124,7 +132,7 @@ export default function RessourceCardComponent() {
     <CardComponent
       title="Ressourcen"
       titleIcon={<DynamicFormTwoToneIcon fontSize="medium" />}
-      stackDirection="row"
+      stackDirection="column"
     >
       <Stack
         direction="column"
@@ -140,7 +148,9 @@ export default function RessourceCardComponent() {
         </Typography>
         {cpuLoaded ? (
           <Typography variant="h5" component="div" noWrap>
-            {cpuCount.toFixed(2) + " / " + cpuQuota} Cores
+            {`${cpuCount.toFixed(2)} / ${cpuQuota.toFixed(
+              2
+            )} ${cpuQuotaMetric}`}
           </Typography>
         ) : (
           <CircularProgress color="primary" />
@@ -161,8 +171,7 @@ export default function RessourceCardComponent() {
         </Typography>
         {ramLoaded ? (
           <Typography variant="h5" component="div" noWrap>
-            {ramByteCount.toFixed(2)}
-            {" / " + memoryQuota + " GB"}
+            {`${ramByteCount.toFixed(2)} / ${memoryQuota.toFixed(2)} GB`}
           </Typography>
         ) : (
           <CircularProgress color="secondary" />
