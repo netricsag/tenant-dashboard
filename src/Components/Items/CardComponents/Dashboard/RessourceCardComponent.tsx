@@ -116,6 +116,7 @@ export default function RessourceCardComponent() {
         if (res.status === 200) {
           res.json().then((jsonObj) => {
             if (jsonObj) {
+              jsonObj = jsonObj / 1024 / 1024 / 1024;
               setMemoryQuota(jsonObj);
             }
           });
