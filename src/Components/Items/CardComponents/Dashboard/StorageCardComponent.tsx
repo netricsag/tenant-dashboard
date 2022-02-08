@@ -153,7 +153,7 @@ export default function StorageCardComponent() {
                   <Typography variant="body1" component="div">
                     {storageObject[selectedStorage] / 1024 / 1024 / 1024 +
                       " GB / " +
-                      storageQuotaObject[selectedStorage] +
+                      storageQuotaObject[selectedStorage] / 1024 / 1024 / 1024 +
                       " GB"}
                   </Typography>
                 </Stack>
