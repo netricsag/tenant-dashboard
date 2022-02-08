@@ -1,12 +1,13 @@
-import { Stack, Typography } from "@mui/material";
+import { CircularProgress, Stack, Typography } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
-import { AuthenticationContext } from "../App";
-import FloatingTenantChange from "./Items/FloatingTenantChange";
+import { AuthenticationContext, TenantContext } from "../App";
 import Navbar from "./Navbar";
 import MessageCard from "./Items/CardComponents/Notifications/MessageCard";
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
+  const [notificationsLoaded, setNotificationsLoaded] = useState(false);
+
   const authToken = useContext(AuthenticationContext);
 
   useEffect(() => {
@@ -21,8 +22,10 @@ export default function Notifications() {
           //console.log(jsonObj);
           if (jsonObj) {
             setNotifications(jsonObj);
+            setNotificationsLoaded(true);
           } else {
             setNotifications([]);
+            setNotificationsLoaded(true);
           }
         });
       } else if (res.status === 401) {
@@ -43,18 +46,24 @@ export default function Notifications() {
         justifyContent="center"
         alignItems="center"
       >
-        {notifications
-          ? notifications.map((message: any, index) => (
-              <MessageCard
-                key={message.client_msg_id}
-                message={message.message}
-                messageLink={message.link_to_message}
-                timestamp={message.unix_timestamp}
-                userAvatarUrl={message.user_avatar_url}
-                userRealName={message.user_real_name}
-              />
-            ))
-          : "NO MESSAGES"}
+        {notificationsLoaded ? (
+          <>
+            {notifications
+              ? notifications.map((message: any, index) => (
+                  <MessageCard
+                    key={message.client_msg_id}
+                    message={message.message}
+                    messageLink={message.link_to_message}
+                    timestamp={message.unix_timestamp}
+                    userAvatarUrl={message.user_avatar_url}
+                    userRealName={message.user_real_name}
+                  />
+                ))
+              : "NO MESSAGES"}
+          </>
+        ) : (
+          <CircularProgress color="primary" />
+        )}
       </Stack>
     </>
   );
