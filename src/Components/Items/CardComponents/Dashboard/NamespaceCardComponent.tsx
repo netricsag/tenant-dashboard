@@ -12,7 +12,6 @@ import { CubeTransparentIcon } from "@heroicons/react/outline";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DetailsModal from "../../DetailsModal";
-import { Logout } from "../../../Logout";
 
 export default function NamespaceCardComponent() {
   const [namespaceCount, setNameSpaceCount] = useState(0);
@@ -49,8 +48,8 @@ export default function NamespaceCardComponent() {
               setNameSpacesLoaded(true);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          authToken.updateAuthenticated(false);
         }
       });
     }

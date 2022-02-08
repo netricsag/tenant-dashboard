@@ -15,7 +15,6 @@ import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DonutChart from "../../DonutChart";
-import { Logout } from "../../../Logout";
 
 export default function StorageCardComponent() {
   const [selectedStorage, setSelectedStorage] = useState("");
@@ -74,8 +73,8 @@ export default function StorageCardComponent() {
               setStorageLoaded(true);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          authToken.updateAuthenticated(false);
         }
       });
     }

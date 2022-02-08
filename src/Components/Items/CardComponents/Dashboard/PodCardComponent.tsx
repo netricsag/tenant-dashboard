@@ -12,7 +12,6 @@ import ViewInAr from "@mui/icons-material/ViewInAr";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DetailsModal from "../../DetailsModal";
-import { Logout } from "../../../Logout";
 
 export default function PodCardComponent() {
   const [pods, setPods] = useState([]);
@@ -49,8 +48,8 @@ export default function PodCardComponent() {
               setPodsLoaded(true);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          authToken.updateAuthenticated(false);
         }
       });
     }

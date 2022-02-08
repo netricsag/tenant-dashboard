@@ -120,8 +120,6 @@ export default function Navbar() {
   const authContext = useContext(AuthenticationContext);
 
   const Logout = () => {
-    localStorage.removeItem("tenant-api-token");
-    authContext.updateAuthenticationToken("");
     authContext.updateAuthenticated(false);
   };
 

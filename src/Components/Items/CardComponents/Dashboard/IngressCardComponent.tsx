@@ -12,7 +12,6 @@ import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DetailsModal from "../../DetailsModal";
-import { Logout } from "../../../Logout";
 
 export default function IngressCardComponent() {
   const [ingress, setIngress] = useState([]);
@@ -49,8 +48,8 @@ export default function IngressCardComponent() {
               setIngressLoaded(true);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          authToken.updateAuthenticated(false);
         }
       });
     }

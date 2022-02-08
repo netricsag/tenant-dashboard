@@ -5,7 +5,6 @@ import CpuIcon from "../../Icons/CpuIcon";
 import RamIcon from "../../Icons/RAMIcon";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
-import { Logout } from "../../../Logout";
 
 export default function RessourceCardComponent() {
   const [cpuCount, setCpuCount] = useState(0);
@@ -41,8 +40,8 @@ export default function RessourceCardComponent() {
             setCpuCount(jsonObj);
             setCpuLoaded(true);
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          authToken.updateAuthenticated(false);
         }
       });
 
@@ -65,8 +64,8 @@ export default function RessourceCardComponent() {
             setRamByteCount(jsonObj);
             setRamLoaded(true);
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          authToken.updateAuthenticated(false);
         }
       });
     }

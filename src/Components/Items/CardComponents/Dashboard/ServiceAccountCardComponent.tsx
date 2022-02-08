@@ -12,7 +12,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DetailsModal from "../../DetailsModal";
-import { Logout } from "../../../Logout";
 
 export default function ServiceAccountCardComponent() {
   const [serviceAccounts, setServiceAccounts] = useState([]);
@@ -54,8 +53,8 @@ export default function ServiceAccountCardComponent() {
               setServiceAccountsLoaded(true);
             }
           });
-        } else if (res.status === 403) {
-          Logout();
+        } else if (res.status === 401) {
+          authToken.updateAuthenticated(false);
         }
       });
     }
