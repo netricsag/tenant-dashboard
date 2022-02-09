@@ -32,11 +32,13 @@ export default function StorageCardComponent() {
   };
 
   const StorageDropDownItems = storage.map((storageName, index) => {
-    return (
-      <MenuItem value={storageName as string} key={index}>
-        {storageName}
-      </MenuItem>
-    );
+    if (storageQuotaObject[storageName] !== 0) {
+      return (
+        <MenuItem value={storageName as string} key={index}>
+          {storageName}
+        </MenuItem>
+      );
+    }
   });
 
   useEffect(() => {
@@ -64,11 +66,9 @@ export default function StorageCardComponent() {
           res.json().then((jsonObj) => {
             if (jsonObj != null) {
               SetStorageObject(jsonObj);
-              setStorage(Object.keys(jsonObj));
               setStorageLoaded(true);
             } else {
               SetStorageObject("");
-              setStorage([]);
               setStorageLoaded(true);
             }
           });
@@ -92,8 +92,10 @@ export default function StorageCardComponent() {
           res.json().then((jsonObj) => {
             if (jsonObj != null) {
               setStorageQuotaObject(jsonObj);
+              setStorage(Object.keys(jsonObj));
             } else {
               setStorageQuotaObject({});
+              setStorage([]);
             }
           });
         } else if (res.status === 401) {
@@ -137,24 +139,40 @@ export default function StorageCardComponent() {
                 >
                   <DonutChart
                     primaryValue={
-                      storageObject[selectedStorage] / 1024 / 1024 / 1024
+                      storageObject[selectedStorage]
+                        ? storageObject[selectedStorage] / 1024 / 1024 / 1024
+                        : 0
                     }
-                    secondaryValue={storageQuotaObject[selectedStorage] / 1024 / 1024 / 1024}
-                    innerText={
-                      100 -
-                      (100 / storageQuotaObject[selectedStorage] / 1024 / 1024 / 1024) *
-                        (storageObject[selectedStorage] / 1024 / 1024 / 1024) +
-                      "% Frei"
+                    secondaryValue={
+                      storageQuotaObject[selectedStorage]
+                        ? storageQuotaObject[selectedStorage] /
+                          1024 /
+                          1024 /
+                          1024
+                        : 1
                     }
+                    innerText={`
+                      ${
+                        storageObject[selectedStorage]
+                          ? 100 -
+                            (100 / storageQuotaObject[selectedStorage]) *
+                              storageObject[selectedStorage]
+                          : 100
+                      }
+                      % Frei
+                    `}
                   />
                   <Typography variant="h6" component="div">
                     Belegt:
                   </Typography>
                   <Typography variant="body1" component="div">
-                    {storageObject[selectedStorage] / 1024 / 1024 / 1024 +
-                      " GB / " +
-                      storageQuotaObject[selectedStorage] / 1024 / 1024 / 1024 +
-                      " GB"}
+                    {`${
+                      storageObject[selectedStorage]
+                        ? storageObject[selectedStorage] / 1024 / 1024 / 1024
+                        : 0
+                    } GB / ${
+                      storageQuotaObject[selectedStorage] / 1024 / 1024 / 1024
+                    } GB`}
                   </Typography>
                 </Stack>
               </Grid>
