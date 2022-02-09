@@ -18,6 +18,9 @@ import DonutChart from "../../DonutChart";
 
 export default function StorageCardComponent() {
   const [selectedStorage, setSelectedStorage] = useState("");
+  const [storageSelectionItems, setStorageSelectionItems] = useState<string[]>(
+    []
+  );
   const [storage, setStorage] = useState<string[]>([]);
   const [storageObject, SetStorageObject] = useState<any>();
   const [storageQuotaObject, setStorageQuotaObject] = useState<any>();
@@ -33,6 +36,9 @@ export default function StorageCardComponent() {
 
   const StorageDropDownItems = storage.map((storageName, index) => {
     if (storageQuotaObject[storageName] !== 0) {
+      if (storageSelectionItems.includes(storageName) === false) {
+        setStorageSelectionItems([storageName, ...storageSelectionItems]);
+      }
       return (
         <MenuItem value={storageName as string} key={index}>
           {storageName}
@@ -46,13 +52,15 @@ export default function StorageCardComponent() {
   }, [tenantContext.selectedTenant]);
 
   useEffect(() => {
-    if (storage[0]) {
-      setSelectedStorage(storage[0] as string);
+    if (storageSelectionItems[0]) {
+      setSelectedStorage(storageSelectionItems[0] as string);
     }
-  }, [storage]);
+    console.log(storageSelectionItems);
+  }, [storageSelectionItems]);
 
   useEffect(() => {
     if (tenantContext.selectedTenant) {
+      setStorageLoaded(false);
       fetch(
         `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/requests/storage`,
         {
