@@ -11,7 +11,7 @@ import NatronBackground from "./Assets/blob-scatter-haikei.svg";
 
 export const AuthenticationContext = createContext({
   isAuthenticated: false,
-  authenticationToken: "",
+  authenticationToken: "none",
   updateAuthenticationToken: (token: string) => {},
   updateAuthenticated: (auth: boolean) => {},
 });
@@ -21,6 +21,8 @@ export const TenantContext = createContext({
   tenantList: [],
   updateSelectedTenant: (tenant: string) => {},
   updateTeanantList: (tenantList: []) => {},
+  lastSelectedTenant: "",
+  updateLastSelectedTenant: (tenant: string) => {},
 });
 
 function App() {
@@ -29,12 +31,24 @@ function App() {
   const [authenticationToken, setAuthenticationToken] = useState("");
   const [currentTenant, setCurrentTenant] = useState("");
   const [currentTenantList, setCurrentTenantList] = useState([]);
+  const [lastSelectedTenant, setLastSelectedTenant] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("tenant-api-token")) {
       const authToken = localStorage.getItem("tenant-api-token");
       setAuthenticated(true);
       setAuthenticationToken(authToken as string);
+    }
+    if (localStorage.getItem("lastSelectedTenant")) {
+      const tmpLastSelectedTenant = localStorage.getItem("lastSelectedTenant");
+      setLastSelectedTenant(tmpLastSelectedTenant as string);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (currentTenantList.length > 0) {
+      const tmpLastSelectedTenant = localStorage.getItem("lastSelectedTenant");
+      setCurrentTenant(tmpLastSelectedTenant as string);
     }
   }, []);
 
@@ -45,13 +59,12 @@ function App() {
     }
   }, [localStorage.getItem("tenant-api-token")]);
 
-  /*   useEffect(() => {
-    if (authenticated === false) {
-      localStorage.removeItem("tenant-api-token");
-      setAuthenticationToken("");
-      setAuthenticated(false);
+  useEffect(() => {
+    if (currentTenant !== "") {
+      setLastSelectedTenant(currentTenant);
+      localStorage.setItem("lastSelectedTenant", currentTenant);
     }
-  }, [authenticated]); */
+  }, [currentTenant]);
 
   const Theme = createTheme({
     palette: {
@@ -95,6 +108,8 @@ function App() {
             updateSelectedTenant: setCurrentTenant,
             tenantList: currentTenantList,
             updateTeanantList: setCurrentTenantList,
+            lastSelectedTenant: lastSelectedTenant,
+            updateLastSelectedTenant: setLastSelectedTenant,
           }}
         >
           <ThemeProvider theme={authenticated ? Theme : LoginTheme}>
@@ -127,51 +142,25 @@ function App() {
                 }}
               >
                 <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      authenticated ? (
-                        <Navigate to="dashboard" />
-                      ) : (
-                        <Navigate to="login" />
-                      )
-                    }
-                  />
+                  {!authenticated ? (
+                    <>
+                      <Route path="/login" element={<Login />} />
+                      <Route path="*" element={<Navigate to="login" />} />
+                    </>
+                  ) : (
+                    <>
+                      <Route path="/" element={<Navigate to="dashboard" />} />
 
-                  <Route
-                    path="dashboard"
-                    element={
-                      authenticated ? <Dashboard /> : <Navigate to="/login" />
-                    }
-                  />
-                  <Route
-                    path="cost"
-                    element={
-                      authenticated ? <Cost /> : <Navigate to="/login" />
-                    }
-                  />
-                  <Route
-                    path="notifications"
-                    element={
-                      authenticated ? (
-                        <Notifications />
-                      ) : (
-                        <Navigate to="/login" />
-                      )
-                    }
-                  />
-                  <Route
-                    path="settings"
-                    element={
-                      authenticated ? <Settings /> : <Navigate to="/login" />
-                    }
-                  />
-                  <Route
-                    path="/login"
-                    element={
-                      authenticated ? <Navigate to="/dashboard" /> : <Login />
-                    }
-                  />
+                      <Route path="dashboard" element={<Dashboard />} />
+                      <Route path="cost" element={<Cost />} />
+                      <Route path="notifications" element={<Notifications />} />
+                      <Route path="settings" element={<Settings />} />
+                      <Route
+                        path="/login"
+                        element={<Navigate to="/dashboard" />}
+                      />
+                    </>
+                  )}
                 </Routes>
               </Box>
             </drawerContext.Provider>
