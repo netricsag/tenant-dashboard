@@ -66,14 +66,6 @@ function App() {
     }
   }, [currentTenant]);
 
-  /*   useEffect(() => {
-    if (authenticated === false) {
-      localStorage.removeItem("tenant-api-token");
-      setAuthenticationToken("");
-      setAuthenticated(false);
-    }
-  }, [authenticated]); */
-
   const Theme = createTheme({
     palette: {
       mode: "light",

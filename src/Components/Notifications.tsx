@@ -1,6 +1,6 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
-import { AuthenticationContext, TenantContext } from "../App";
+import { AuthenticationContext } from "../App";
 import Navbar from "./Navbar";
 import MessageCard from "./Items/CardComponents/Notifications/MessageCard";
 
