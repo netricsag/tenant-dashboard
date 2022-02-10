@@ -5,6 +5,7 @@ import { useState } from "react";
 interface IDetailsModal {
   title: string;
   children?: any;
+  overrideButtonText?: string;
 }
 
 const style = {
@@ -39,7 +40,9 @@ export default function DetailsModal(props: IDetailsModal) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Details</Button>
+      <Button onClick={handleOpen}>
+        {props.overrideButtonText ? props.overrideButtonText : "Details"}
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}

@@ -9,12 +9,17 @@ import {
   Select,
   SelectChangeEvent,
   MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
 } from "@mui/material";
 import CardComponent from "../../CardComponent";
 import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext, TenantContext } from "../../../../App";
 import DonutChart from "../../DonutChart";
+import DetailsModal from "../../DetailsModal";
 
 export default function StorageCardComponent() {
   const [selectedStorage, setSelectedStorage] = useState("");
@@ -22,6 +27,8 @@ export default function StorageCardComponent() {
     []
   );
   const [storage, setStorage] = useState<string[]>([]);
+  const [pvc, setPvc] = useState<any>();
+  const [pvcList, setPvcList] = useState<string[]>([]);
   const [storageObject, SetStorageObject] = useState<any>();
   const [storageQuotaObject, setStorageQuotaObject] = useState<any>();
 
@@ -55,8 +62,17 @@ export default function StorageCardComponent() {
     if (storageSelectionItems[0]) {
       setSelectedStorage(storageSelectionItems[0] as string);
     }
-    console.log(storageSelectionItems);
   }, [storageSelectionItems]);
+
+  /*useEffect(() => {
+    if (selectedStorage) {
+      if (pvc[selectedStorage]) {
+        setPvcList(pvc[selectedStorage]);
+      } else {
+        setPvcList([]);
+      }
+    }
+  }, [selectedStorage]);*/
 
   useEffect(() => {
     if (tenantContext.selectedTenant) {
@@ -104,6 +120,28 @@ export default function StorageCardComponent() {
             } else {
               setStorageQuotaObject({});
               setStorage([]);
+            }
+          });
+        } else if (res.status === 401) {
+          localStorage.removeItem("tenant-api-token");
+          authToken.updateAuthenticationToken("");
+          authToken.updateAuthenticated(false);
+        }
+      });
+
+      fetch(
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/pvcs`,
+        {
+          method: "get",
+          headers: new Headers({
+            Authorization: `Bearer ${authToken.authenticationToken}`,
+          }),
+        }
+      ).then((res) => {
+        if (res.status === 200) {
+          res.json().then((jsonObj) => {
+            if (jsonObj != null) {
+              setPvc(jsonObj);
             }
           });
         } else if (res.status === 401) {
@@ -173,7 +211,7 @@ export default function StorageCardComponent() {
                   <Typography variant="h6" component="div">
                     Belegt:
                   </Typography>
-                  <Typography variant="body1" component="div">
+                  <Typography variant="body1" component="div" gutterBottom>
                     {`${
                       storageObject[selectedStorage]
                         ? storageObject[selectedStorage] / 1024 / 1024 / 1024
@@ -182,6 +220,33 @@ export default function StorageCardComponent() {
                       storageQuotaObject[selectedStorage] / 1024 / 1024 / 1024
                     } GB`}
                   </Typography>
+                  {pvc[selectedStorage] ? (
+                    <DetailsModal title="PVCs" overrideButtonText="PVC Details">
+                      <Stack>
+                        <Table aria-label="simple table">
+                          <TableBody>
+                            {pvc[selectedStorage].map((row: any) => (
+                              <TableRow
+                                key={row}
+                                sx={{
+                                  "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                  },
+                                }}
+                              >
+                                <TableCell align="center">
+                                  <StorageTwoToneIcon fontSize="medium" />
+                                </TableCell>
+                                <TableCell align="center">{row}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </Stack>
+                    </DetailsModal>
+                  ) : (
+                    <></>
+                  )}
                 </Stack>
               </Grid>
             </Grid>
