@@ -11,7 +11,7 @@ import NatronBackground from "./Assets/blob-scatter-haikei.svg";
 
 export const AuthenticationContext = createContext({
   isAuthenticated: false,
-  authenticationToken: "",
+  authenticationToken: "none",
   updateAuthenticationToken: (token: string) => {},
   updateAuthenticated: (auth: boolean) => {},
 });
@@ -142,51 +142,25 @@ function App() {
                 }}
               >
                 <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      authenticated ? (
-                        <Navigate to="dashboard" />
-                      ) : (
-                        <Navigate to="login" />
-                      )
-                    }
-                  />
+                  {!authenticated ? (
+                    <>
+                      <Route path="/login" element={<Login />} />
+                      <Route path="*" element={<Navigate to="login" />} />
+                    </>
+                  ) : (
+                    <>
+                      <Route path="/" element={<Navigate to="dashboard" />} />
 
-                  <Route
-                    path="dashboard"
-                    element={
-                      authenticated ? <Dashboard /> : <Navigate to="/login" />
-                    }
-                  />
-                  <Route
-                    path="cost"
-                    element={
-                      authenticated ? <Cost /> : <Navigate to="/login" />
-                    }
-                  />
-                  <Route
-                    path="notifications"
-                    element={
-                      authenticated ? (
-                        <Notifications />
-                      ) : (
-                        <Navigate to="/login" />
-                      )
-                    }
-                  />
-                  <Route
-                    path="settings"
-                    element={
-                      authenticated ? <Settings /> : <Navigate to="/login" />
-                    }
-                  />
-                  <Route
-                    path="/login"
-                    element={
-                      authenticated ? <Navigate to="/dashboard" /> : <Login />
-                    }
-                  />
+                      <Route path="dashboard" element={<Dashboard />} />
+                      <Route path="cost" element={<Cost />} />
+                      <Route path="notifications" element={<Notifications />} />
+                      <Route path="settings" element={<Settings />} />
+                      <Route
+                        path="/login"
+                        element={<Navigate to="/dashboard" />}
+                      />
+                    </>
+                  )}
                 </Routes>
               </Box>
             </drawerContext.Provider>
