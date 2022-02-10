@@ -220,30 +220,39 @@ export default function StorageCardComponent() {
                       storageQuotaObject[selectedStorage] / 1024 / 1024 / 1024
                     } GB`}
                   </Typography>
-                  {pvc[selectedStorage] ? (
-                    <DetailsModal title="PVCs" overrideButtonText="PVC Details">
-                      <Stack>
-                        <Table aria-label="simple table">
-                          <TableBody>
-                            {pvc[selectedStorage].map((row: any) => (
-                              <TableRow
-                                key={row}
-                                sx={{
-                                  "&:last-child td, &:last-child th": {
-                                    border: 0,
-                                  },
-                                }}
-                              >
-                                <TableCell align="center">
-                                  <StorageTwoToneIcon fontSize="medium" />
-                                </TableCell>
-                                <TableCell align="center">{row}</TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </Stack>
-                    </DetailsModal>
+                  {pvc ? (
+                    <>
+                      {pvc[selectedStorage] ? (
+                        <DetailsModal
+                          title="PVCs"
+                          overrideButtonText="PVC Details"
+                        >
+                          <Stack>
+                            <Table aria-label="simple table">
+                              <TableBody>
+                                {pvc[selectedStorage].map((row: any) => (
+                                  <TableRow
+                                    key={row}
+                                    sx={{
+                                      "&:last-child td, &:last-child th": {
+                                        border: 0,
+                                      },
+                                    }}
+                                  >
+                                    <TableCell align="center">
+                                      <StorageTwoToneIcon fontSize="medium" />
+                                    </TableCell>
+                                    <TableCell align="center">{row}</TableCell>
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </Stack>
+                        </DetailsModal>
+                      ) : (
+                        <></>
+                      )}
+                    </>
                   ) : (
                     <></>
                   )}
