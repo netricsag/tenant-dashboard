@@ -28,7 +28,7 @@ export default function IngressCardComponent() {
   useEffect(() => {
     if (tenantContext.selectedTenant) {
       fetch(
-        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/requests/ingress`,
+        `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/ingresses`,
         {
           method: "get",
           headers: new Headers({
