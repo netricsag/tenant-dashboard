@@ -21,6 +21,8 @@ export const TenantContext = createContext({
   tenantList: [],
   updateSelectedTenant: (tenant: string) => {},
   updateTeanantList: (tenantList: []) => {},
+  lastSelectedTenant: "",
+  updateLastSelectedTenant: (tenant: string) => {},
 });
 
 function App() {
@@ -29,12 +31,24 @@ function App() {
   const [authenticationToken, setAuthenticationToken] = useState("");
   const [currentTenant, setCurrentTenant] = useState("");
   const [currentTenantList, setCurrentTenantList] = useState([]);
+  const [lastSelectedTenant, setLastSelectedTenant] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("tenant-api-token")) {
       const authToken = localStorage.getItem("tenant-api-token");
       setAuthenticated(true);
       setAuthenticationToken(authToken as string);
+    }
+    if (localStorage.getItem("lastSelectedTenant")) {
+      const tmpLastSelectedTenant = localStorage.getItem("lastSelectedTenant");
+      setLastSelectedTenant(tmpLastSelectedTenant as string);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (currentTenantList.length > 0) {
+      const tmpLastSelectedTenant = localStorage.getItem("lastSelectedTenant");
+      setCurrentTenant(tmpLastSelectedTenant as string);
     }
   }, []);
 
@@ -44,6 +58,13 @@ function App() {
       setAuthenticationToken(newToken as string);
     }
   }, [localStorage.getItem("tenant-api-token")]);
+
+  useEffect(() => {
+    if (currentTenant !== "") {
+      setLastSelectedTenant(currentTenant);
+      localStorage.setItem("lastSelectedTenant", currentTenant);
+    }
+  }, [currentTenant]);
 
   /*   useEffect(() => {
     if (authenticated === false) {
@@ -95,6 +116,8 @@ function App() {
             updateSelectedTenant: setCurrentTenant,
             tenantList: currentTenantList,
             updateTeanantList: setCurrentTenantList,
+            lastSelectedTenant: lastSelectedTenant,
+            updateLastSelectedTenant: setLastSelectedTenant,
           }}
         >
           <ThemeProvider theme={authenticated ? Theme : LoginTheme}>

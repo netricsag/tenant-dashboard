@@ -50,8 +50,14 @@ export default function TenantDropdown() {
   }, []);
 
   useEffect(() => {
-    if (tenantContext.tenantList[0] && tenantContext.selectedTenant === "") {
+    if (
+      tenantContext.tenantList[0] &&
+      tenantContext.selectedTenant === "" &&
+      tenantContext.lastSelectedTenant === ""
+    ) {
       tenantContext.updateSelectedTenant(tenantContext.tenantList[0] as string);
+    } else {
+      tenantContext.updateSelectedTenant(tenantContext.lastSelectedTenant);
     }
   }, [tenantContext.tenantList]);
 
