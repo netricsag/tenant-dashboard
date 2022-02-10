@@ -27,8 +27,8 @@ export default function DonutChart(props: Props) {
   const theme = useTheme();
   return (
     <ResponsiveContainer
-      minHeight={"20vh"}
-      minWidth={"20vh"}
+      minHeight={"23vh"}
+      minWidth={"25vh"}
       height="100%"
       width="100%"
       debounce={1}

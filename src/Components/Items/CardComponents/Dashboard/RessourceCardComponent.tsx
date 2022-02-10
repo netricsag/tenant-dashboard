@@ -149,9 +149,9 @@ export default function RessourceCardComponent() {
         </Typography>
         {cpuLoaded ? (
           <Typography variant="h5" component="div" noWrap>
-            {`${cpuCount.toFixed(2)} / ${cpuQuota.toFixed(
-              2
-            )} ${cpuQuotaMetric}`}
+            {`${cpuCount % 1 === 0 ? cpuCount : cpuCount.toFixed(2)} / ${
+              cpuQuota % 1 === 0 ? cpuQuota : cpuQuota.toFixed(2)
+            } ${cpuQuotaMetric}`}
           </Typography>
         ) : (
           <CircularProgress color="primary" />
@@ -172,7 +172,11 @@ export default function RessourceCardComponent() {
         </Typography>
         {ramLoaded ? (
           <Typography variant="h5" component="div" noWrap>
-            {`${ramByteCount.toFixed(2)} / ${memoryQuota.toFixed(2)} GB`}
+            {`${
+              ramByteCount % 1 === 0 ? ramByteCount : ramByteCount.toFixed(2)
+            } / ${
+              memoryQuota % 1 === 0 ? memoryQuota : memoryQuota.toFixed(2)
+            } GB`}
           </Typography>
         ) : (
           <CircularProgress color="secondary" />
