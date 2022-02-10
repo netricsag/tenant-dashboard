@@ -27,7 +27,9 @@ export default function MessageCard(props: IMessageCard) {
       }}
     >
       <Stack direction="column" spacing={5} padding={3} paddingTop={3}>
-        <Typography variant="body1">{props.message}</Typography>
+        <Typography variant="body1" style={{ whiteSpace: "pre-line" }}>
+          {props.message}
+        </Typography>
       </Stack>
       <Divider variant="middle" />
       <Stack
