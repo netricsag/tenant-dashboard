@@ -23,9 +23,7 @@ import DetailsModal from "../../DetailsModal";
 
 export default function StorageCardComponent() {
   const [selectedStorage, setSelectedStorage] = useState("");
-  const [storageSelectionItems, setStorageSelectionItems] = useState<string[]>(
-    []
-  );
+
   const [storage, setStorage] = useState<string[]>([]);
   const [pvc, setPvc] = useState<any>();
   const [storageObject, SetStorageObject] = useState<any>();
@@ -44,31 +42,24 @@ export default function StorageCardComponent() {
     setStorageDropDownItems(
       storage.map((storageName, index) => {
         if (storageQuotaObject[storageName] !== 0) {
-          if (storageSelectionItems.includes(storageName) === false) {
-            setStorageSelectionItems([storageName, ...storageSelectionItems]);
-            if (selectedStorage === "") {
-              setSelectedStorage(storageName);
-            }
+          if (selectedStorage === "") {
+            setSelectedStorage(storageName);
           }
+
           return (
             <MenuItem value={storageName as string} key={index}>
               {storageName}
             </MenuItem>
           );
         }
+        return null;
       })
     );
-  }, [
-    storageQuotaObject,
-    storageSelectionItems,
-    storage,
-    tenantContext.selectedTenant,
-  ]);
+  }, [storageQuotaObject, storage, tenantContext.selectedTenant]);
 
   useEffect(() => {
     if (tenantContext.selectedTenant) {
       setStorageLoaded(false);
-      setStorageSelectionItems([]);
       setStorageDropDownItems([]);
       setSelectedStorage("");
       setStorageQuotaObject("");
