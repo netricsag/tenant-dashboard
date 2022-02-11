@@ -23,15 +23,12 @@ import DetailsModal from "../../DetailsModal";
 
 export default function StorageCardComponent() {
   const [selectedStorage, setSelectedStorage] = useState("");
-  const [storageSelectionItems, setStorageSelectionItems] = useState<string[]>(
-    []
-  );
+
   const [storage, setStorage] = useState<string[]>([]);
   const [pvc, setPvc] = useState<any>();
-  const [pvcList, setPvcList] = useState<string[]>([]);
   const [storageObject, SetStorageObject] = useState<any>();
   const [storageQuotaObject, setStorageQuotaObject] = useState<any>();
-
+  const [StorageDropDownItems, setStorageDropDownItems] = useState<any[]>();
   const [storageLoaded, setStorageLoaded] = useState(false);
 
   const authToken = useContext(AuthenticationContext);
@@ -41,42 +38,32 @@ export default function StorageCardComponent() {
     setSelectedStorage(event.target.value as string);
   };
 
-  const StorageDropDownItems = storage.map((storageName, index) => {
-    if (storageQuotaObject[storageName] !== 0) {
-      if (storageSelectionItems.includes(storageName) === false) {
-        setStorageSelectionItems([storageName, ...storageSelectionItems]);
-      }
-      return (
-        <MenuItem value={storageName as string} key={index}>
-          {storageName}
-        </MenuItem>
-      );
-    }
-  });
-
   useEffect(() => {
-    setStorageLoaded(false);
-  }, [tenantContext.selectedTenant]);
+    setStorageDropDownItems(
+      storage.map((storageName, index) => {
+        if (storageQuotaObject[storageName] !== 0) {
+          if (selectedStorage === "") {
+            setSelectedStorage(storageName);
+          }
 
-  useEffect(() => {
-    if (storageSelectionItems[0]) {
-      setSelectedStorage(storageSelectionItems[0] as string);
-    }
-  }, [storageSelectionItems]);
-
-  /*useEffect(() => {
-    if (selectedStorage) {
-      if (pvc[selectedStorage]) {
-        setPvcList(pvc[selectedStorage]);
-      } else {
-        setPvcList([]);
-      }
-    }
-  }, [selectedStorage]);*/
+          return (
+            <MenuItem value={storageName as string} key={index}>
+              {storageName}
+            </MenuItem>
+          );
+        }
+        return null;
+      })
+    );
+  }, [storageQuotaObject, storage, tenantContext.selectedTenant]);
 
   useEffect(() => {
     if (tenantContext.selectedTenant) {
       setStorageLoaded(false);
+      setStorageDropDownItems([]);
+      setSelectedStorage("");
+      setStorageQuotaObject("");
+
       fetch(
         `https://api.natron.io/api/v1/${tenantContext.selectedTenant}/requests/storage`,
         {
@@ -204,8 +191,7 @@ export default function StorageCardComponent() {
                             (100 / storageQuotaObject[selectedStorage]) *
                               storageObject[selectedStorage]
                           : 100
-                      }
-                      % Frei
+                      }% Frei
                     `}
                   />
                   <Typography variant="h6" component="div">

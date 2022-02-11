@@ -1,5 +1,6 @@
 import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
 import Cost from "./Components/Cost";
 import Notifications from "./Components/Notifications";
@@ -17,47 +18,39 @@ export const AuthenticationContext = createContext({
 });
 
 export const TenantContext = createContext({
-  selectedTenant: "",
-  tenantList: [],
+  selectedTenant: localStorage.getItem("lastSelectedTenant")
+    ? (localStorage.getItem("lastSelectedTenant") as string)
+    : "",
+  tenantList: [
+    localStorage.getItem("lastSelectedTenant")
+      ? (localStorage.getItem("lastSelectedTenant") as string)
+      : "",
+  ],
   updateSelectedTenant: (tenant: string) => {},
   updateTeanantList: (tenantList: []) => {},
-  lastSelectedTenant: "",
+  lastSelectedTenant: localStorage.getItem("lastSelectedTenant")
+    ? (localStorage.getItem("lastSelectedTenant") as string)
+    : "",
   updateLastSelectedTenant: (tenant: string) => {},
 });
 
 function App() {
   const [drawerOpenState, setDrawerOpenState] = useState<boolean>(false);
-  const [authenticated, setAuthenticated] = useState(false);
-  const [authenticationToken, setAuthenticationToken] = useState("");
+  const [authenticated, setAuthenticated] = useState(
+    localStorage.getItem("tenant-api-token") ? true : false
+  );
+  const [authenticationToken, setAuthenticationToken] = useState(
+    localStorage.getItem("tenant-api-token")
+      ? (localStorage.getItem("tenant-api-token") as string)
+      : ""
+  );
   const [currentTenant, setCurrentTenant] = useState("");
   const [currentTenantList, setCurrentTenantList] = useState([]);
-  const [lastSelectedTenant, setLastSelectedTenant] = useState("");
-
-  useEffect(() => {
-    if (localStorage.getItem("tenant-api-token")) {
-      const authToken = localStorage.getItem("tenant-api-token");
-      setAuthenticated(true);
-      setAuthenticationToken(authToken as string);
-    }
-    if (localStorage.getItem("lastSelectedTenant")) {
-      const tmpLastSelectedTenant = localStorage.getItem("lastSelectedTenant");
-      setLastSelectedTenant(tmpLastSelectedTenant as string);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (currentTenantList.length > 0) {
-      const tmpLastSelectedTenant = localStorage.getItem("lastSelectedTenant");
-      setCurrentTenant(tmpLastSelectedTenant as string);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (localStorage.getItem("tenant-api-token") !== authenticationToken) {
-      const newToken = localStorage.getItem("tenant-api-token");
-      setAuthenticationToken(newToken as string);
-    }
-  }, [localStorage.getItem("tenant-api-token")]);
+  const [lastSelectedTenant, setLastSelectedTenant] = useState(
+    localStorage.getItem("lastSelectedTenant")
+      ? (localStorage.getItem("lastSelectedTenant") as string)
+      : ""
+  );
 
   useEffect(() => {
     if (currentTenant !== "") {
@@ -141,27 +134,32 @@ function App() {
                   backgroundSize: authenticated === false ? "cover" : "",
                 }}
               >
-                <Routes>
-                  {!authenticated ? (
-                    <>
-                      <Route path="/login" element={<Login />} />
-                      <Route path="*" element={<Navigate to="login" />} />
-                    </>
-                  ) : (
-                    <>
-                      <Route path="/" element={<Navigate to="dashboard" />} />
+                <Router>
+                  <Routes>
+                    {!authenticated ? (
+                      <>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="*" element={<Navigate to="login" />} />
+                      </>
+                    ) : (
+                      <>
+                        <Route path="/" element={<Navigate to="dashboard" />} />
 
-                      <Route path="dashboard" element={<Dashboard />} />
-                      <Route path="cost" element={<Cost />} />
-                      <Route path="notifications" element={<Notifications />} />
-                      <Route path="settings" element={<Settings />} />
-                      <Route
-                        path="/login"
-                        element={<Navigate to="/dashboard" />}
-                      />
-                    </>
-                  )}
-                </Routes>
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="cost" element={<Cost />} />
+                        <Route
+                          path="notifications"
+                          element={<Notifications />}
+                        />
+                        <Route path="settings" element={<Settings />} />
+                        <Route
+                          path="/login"
+                          element={<Navigate to="/dashboard" />}
+                        />
+                      </>
+                    )}
+                  </Routes>
+                </Router>
               </Box>
             </drawerContext.Provider>
           </ThemeProvider>

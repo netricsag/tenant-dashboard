@@ -43,8 +43,12 @@ export default function FloatingTenantChange() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [tenants, setTenants] = useState([]);
   const tenantContext = useContext(TenantContext);
+  const [tenants, setTenants] = useState(
+    localStorage.getItem("lastSelectedTenant")
+      ? [localStorage.getItem("lastSelectedTenant") as string]
+      : tenantContext.tenantList
+  );
 
   const TenantItems = tenants.map((tenantName) => {
     return (
