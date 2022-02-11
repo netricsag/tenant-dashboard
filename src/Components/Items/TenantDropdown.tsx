@@ -11,9 +11,8 @@ import { TenantContext } from "../../App";
 import { Logout } from "../Logout";
 
 export default function TenantDropdown() {
-  const [tenants, setTenants] = useState([]);
-
   const tenantContext = useContext(TenantContext);
+  const [tenants, setTenants] = useState([tenantContext.selectedTenant]);
   const authToken = useContext(AuthenticationContext);
 
   const DropDownItems = tenants.map((tenantName, index) => {
@@ -69,7 +68,11 @@ export default function TenantDropdown() {
     >
       <FormControl fullWidth>
         <Select
-          value={tenantContext.selectedTenant}
+          value={
+            tenantContext.selectedTenant
+              ? tenantContext.selectedTenant
+              : tenantContext.lastSelectedTenant
+          }
           onChange={(ev: SelectChangeEvent) => {
             tenantContext.updateSelectedTenant(ev.target.value as string);
           }}
