@@ -15,14 +15,6 @@ export default function TenantDropdown() {
   const [tenants, setTenants] = useState([tenantContext.selectedTenant]);
   const authToken = useContext(AuthenticationContext);
 
-  const DropDownItems = tenants.map((tenantName, index) => {
-    return (
-      <MenuItem value={tenantName as string} key={index}>
-        {tenantName}
-      </MenuItem>
-    );
-  });
-
   useEffect(() => {
     setTenants(tenantContext.tenantList);
   }, [tenantContext.tenantList]);
@@ -69,16 +61,20 @@ export default function TenantDropdown() {
       <FormControl fullWidth>
         <Select
           value={
-            tenantContext.selectedTenant
-              ? tenantContext.selectedTenant
-              : tenantContext.lastSelectedTenant
+            tenantContext.selectedTenant ? tenantContext.selectedTenant : ""
           }
           onChange={(ev: SelectChangeEvent) => {
             tenantContext.updateSelectedTenant(ev.target.value as string);
           }}
           style={{ minWidth: 50, color: "white" }}
         >
-          {DropDownItems}
+          {tenantContext.tenantList.map((tenantName, index) => {
+            return (
+              <MenuItem value={tenantName as string} key={index}>
+                {tenantName}
+              </MenuItem>
+            );
+          })}
         </Select>
       </FormControl>
     </Box>
