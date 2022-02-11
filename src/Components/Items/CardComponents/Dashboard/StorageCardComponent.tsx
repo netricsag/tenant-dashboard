@@ -191,8 +191,7 @@ export default function StorageCardComponent() {
                             (100 / storageQuotaObject[selectedStorage]) *
                               storageObject[selectedStorage]
                           : 100
-                      }
-                      % Frei
+                      }% Frei
                     `}
                   />
                   <Typography variant="h6" component="div">
