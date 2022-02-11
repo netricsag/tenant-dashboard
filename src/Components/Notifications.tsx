@@ -48,18 +48,22 @@ export default function Notifications() {
       >
         {notificationsLoaded ? (
           <>
-            {notifications
-              ? notifications.map((message: any, index) => (
-                  <MessageCard
-                    key={message.client_msg_id}
-                    message={message.message}
-                    messageLink={message.link_to_message}
-                    timestamp={message.unix_timestamp}
-                    userAvatarUrl={message.user_avatar_url}
-                    userRealName={message.user_real_name}
-                  />
-                ))
-              : "NO MESSAGES"}
+            {notifications.length > 0 ? (
+              notifications.map((message: any, index) => (
+                <MessageCard
+                  key={message.client_msg_id}
+                  message={message.message}
+                  messageLink={message.link_to_message}
+                  timestamp={message.unix_timestamp}
+                  userAvatarUrl={message.user_avatar_url}
+                  userRealName={message.user_real_name}
+                />
+              ))
+            ) : (
+              <Typography variant="h4" component="div" gutterBottom>
+                Keine Nachrichten
+              </Typography>
+            )}
           </>
         ) : (
           <CircularProgress color="primary" />
